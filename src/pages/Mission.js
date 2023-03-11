@@ -29,8 +29,8 @@ const Mission = () => {
           means that our users can receive support from a global community of
           fellow gamers and streamers who are passionate about helping others
           achieve their goals. We understand that cyptocurrencies and blockchain
-          technology might be viewed as a negative with gamers, but this using
-          it is vital in providing access globally.
+          technology might be viewed as a negative with gamers, but it is vital
+          to provide funding globally.
         </p>
         <p class="font-light ">
           At CrowdGaming, we believe in the power of community and the

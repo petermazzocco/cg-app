@@ -1,10 +1,21 @@
 import React from "react";
-import logo from "../img/logo.png";
+import logo from "../img/logo2.png";
 import Accordion from "../components/Accordion";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Index = () => {
+  const icon = {
+    hidden: {
+      pathLength: 0,
+      fill: "rgba(255, 255, 255, 0)",
+    },
+    visible: {
+      pathLength: 1,
+      fill: "rgba(255, 255, 255, 1)",
+    },
+  };
+
   return (
     <div className="min-h-screen">
       <div className=" px-24 pt-48 text-black">
@@ -48,12 +59,13 @@ const Index = () => {
               </NavLink>
             </motion.div>
           </div>
-          <div className="md:col-span-1 xs:row-span-1">
-            <img src={logo} className="w-2/3" alt="logo" />
+          <div className="md:col-span-1 xs:row-span-1 justify-center grid place-items-center xs:pt-10 md:pt-0">
+            <img src={logo} className="w-1/3" alt="logo" />
           </div>
         </div>
       </div>
-      <div className="grid place-items-center pt-40 space-y-8">
+
+      <div className="grid place-items-center pt-40 space-y-8 pl-10 pr-10">
         <h1 className="text-center text-2xl">What are we trying to solve?</h1>
         <div className="md:flex md:flex-row md:justify-evenly text-center md:w-full xs:grid xs:grid-cols-1 gap-24">
           <div className="grid grid-cols-1">
@@ -68,6 +80,10 @@ const Index = () => {
             <h2 className="text-3xl font-black text-gray-400">62%</h2>
             <p>The price increase of gaming </p>
             <p>equipment from 2019-2021</p>
+          </div>
+          <div className="grid grid-cols-1">
+            <h2 className="text-3xl font-black text-gray-400">1</h2>
+            <p>form of global currency </p>
           </div>
         </div>
       </div>
@@ -91,12 +107,13 @@ const Index = () => {
             significant financial burden.
           </p>
           <p class="mb-3 font-light ">
-            Traditional crowdfunding platforms may not support global campaigns
-            due to limitations in accepting donations from other countries and
-            requiring payment systems supported in specific regions. This can be
-            a significant barrier for creators or causes based in countries
-            without access to international payment systems. This is where
-            cryptocurrency comes in, it is considered the Global currency.
+            Additionally, crowdfunding platforms may not support global
+            campaigns due to limitations in accepting donations from other
+            countries and requiring payment systems supported in specific
+            regions. This can be a significant barrier for creators or causes
+            based in countries without access to international payment systems.
+            This is where cryptocurrency comes in, it is considered the Global
+            currency.
           </p>
         </div>
         <p class="mb-3 font-light ">
@@ -113,6 +130,16 @@ const Index = () => {
           is considered a global currency. This is why our mission is to provide
           gamers all over the world with the ability to create a campaign.
         </p>
+      </div>
+      <div className="grid justify-center pt-5 pb-10 ">
+        <div className="text-center grid grid-cols-1 space-y-4">
+          <h1>Ready To Commit?</h1>
+          <NavLink to="campaigns">
+            <button className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md">
+              Campaigns
+            </button>
+          </NavLink>
+        </div>
       </div>
     </div>
   );
