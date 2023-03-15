@@ -1,6 +1,6 @@
 import React from "react";
 import logo from "../img/logo2.png";
-import Accordion from "../components/Accordion";
+
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -35,7 +35,7 @@ const Index = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.4 }}
-              class=" xs:text-xs sm:text-sm md:text-lg font-normal  lg:text-xl"
+              class=" xs:text-xs sm:text-sm md:text-md font-normal  lg:text-xl"
             >
               Funding gamers and streamers all around the world. Create and
               support campaigns utilizing blockchain technology.

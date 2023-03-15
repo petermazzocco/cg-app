@@ -1,7 +1,12 @@
 import React from "react";
+import CampaignField from "../components/CampaignField";
 
 const AllCampaigns = () => {
-  return <div></div>;
+  return (
+    <div className="h-screen">
+      <CampaignField />{" "}
+    </div>
+  );
 };
 
 export default AllCampaigns;
