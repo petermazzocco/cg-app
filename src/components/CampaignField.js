@@ -1,6 +1,31 @@
 import React from "react";
+import { launchCampaign } from "../utils/configs";
 
 const CampaignField = (props) => {
+  async function newContract() {
+    const owner = props.account;
+    const title = document.getElementById("title").value;
+    const goal = document.getElementById("goal").value;
+    const startAt = document.getElementById("startAt").value;
+    const endAt = document.getElementById("endAt").value;
+    const description = document.getElementById("description").value;
+
+    try {
+      const tx = await launchCampaign(
+        owner,
+        title,
+        goal,
+        startAt,
+        endAt,
+        description
+      );
+      console.log(`Tx hash: ${tx.hash}`);
+      const receipt = await tx.wait();
+    } catch (err) {
+      console.log(`Error when creating a contract: ${err}`);
+    }
+  }
+
   return (
     <div className="grid justify-center h-full place-items-center w-full mx-5 ">
       <p>Please fill out the form to create your campaign.</p>
@@ -15,7 +40,7 @@ const CampaignField = (props) => {
           <input
             type="text"
             placeholder={props.account}
-            id="default-input"
+            id="owner"
             disabled
             className="bg-gray-50 border cursor-not-allowed border-gray-600 text-teal-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-teal-500  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
@@ -30,7 +55,7 @@ const CampaignField = (props) => {
           <input
             type="text"
             placeholder="My Campaign"
-            id="default-input"
+            id="title"
             maxLength="50"
             className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
@@ -48,7 +73,7 @@ const CampaignField = (props) => {
           <input
             type="text"
             placeholder="In ETH"
-            id="default-input"
+            id="goal"
             className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
         </div>
@@ -79,6 +104,7 @@ const CampaignField = (props) => {
               <input
                 name="start"
                 type="text"
+                id="startAt"
                 class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date to start"
               />
@@ -103,6 +129,7 @@ const CampaignField = (props) => {
               <input
                 name="end"
                 type="text"
+                id="endAt"
                 class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date to end"
               />
@@ -120,7 +147,7 @@ const CampaignField = (props) => {
             Description <span className="text-xs font-thin">**</span>
           </label>
           <textarea
-            id="message"
+            id="description"
             rows="4"
             className="block p-2.5 min-w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500   dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Please give a detail description of your campaign."
@@ -131,7 +158,10 @@ const CampaignField = (props) => {
           </p>
         </div>
         <div className="w-1/3">
-          <button className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md">
+          <button
+            onClick={newContract}
+            className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
+          >
             Create Your Campaign
           </button>
           <p className="text-xs font-thin pt-2">
