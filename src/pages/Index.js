@@ -26,7 +26,7 @@ const Index = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.2 }}
-              class="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl"
+              className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl"
             >
               CrowdGaming{" "}
             </motion.h1>
@@ -35,7 +35,7 @@ const Index = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.4 }}
-              class=" xs:text-xs sm:text-sm md:text-md font-normal  lg:text-xl"
+              className=" xs:text-xs sm:text-sm md:text-md font-normal  lg:text-xl"
             >
               Funding gamers and streamers all around the world. Create and
               support campaigns utilizing blockchain technology.
@@ -88,7 +88,7 @@ const Index = () => {
         </div>
       </div>
       <div className="p-10 text-black">
-        <p class="mb-3 font-light ">
+        <p className="mb-3 font-light ">
           The increasing popularity of video games worldwide has led to a surge
           in demand for gaming equipment, such as gaming consoles, graphics
           cards, and high-performance computers. As a result, gamers around the
@@ -97,8 +97,8 @@ const Index = () => {
           can range from several hundred to several thousand dollars, depending
           on the specifications.
         </p>
-        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-          <p class="mb-3 font-light ">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <p className="mb-3 font-light ">
             Moreover, as the video game industry continues to grow, game
             developers are releasing more graphically demanding games that
             require the latest hardware to run smoothly. This means that gamers
@@ -106,7 +106,7 @@ const Index = () => {
             to upgrade their equipment more frequently, which can be a
             significant financial burden.
           </p>
-          <p class="mb-3 font-light ">
+          <p className="mb-3 font-light ">
             Additionally, crowdfunding platforms may not support global
             campaigns due to limitations in accepting donations from other
             countries and requiring payment systems supported in specific
@@ -116,7 +116,7 @@ const Index = () => {
             currency.
           </p>
         </div>
-        <p class="mb-3 font-light ">
+        <p className="mb-3 font-light ">
           The increasing demand for gaming equipment due to the rising
           popularity of video games has made it difficult for gamers worldwide
           to keep up with the increasing costs of gaming tools. This is
