@@ -3,20 +3,21 @@ import React from "react";
 const CampaignField = (props) => {
   return (
     <div className="grid justify-center h-full place-items-center w-full mx-5 ">
+      <p>Please fill out the form to create your campaign.</p>
       <form className="space-y-8">
         <div>
           <label
             for="default-input"
             className="block mb-2 text-sm font-medium text-black"
           >
-            Owner
+            Creator
           </label>
           <input
             type="text"
             placeholder={props.account}
             id="default-input"
             disabled
-            className="bg-gray-50 border cursor-not-allowed border-gray-300 text-teal-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5 dark:border-gray-600 dark:placeholder-teal-500  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+            className="bg-gray-50 border cursor-not-allowed border-gray-600 text-teal-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-teal-500  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
         </div>
         <div>
@@ -31,7 +32,7 @@ const CampaignField = (props) => {
             placeholder="My Campaign"
             id="default-input"
             maxLength="50"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+            className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
           <p className="text-xs font-thin">
             Max 50 characters. The transaction will fail if you go over 50.
@@ -48,7 +49,7 @@ const CampaignField = (props) => {
             type="text"
             placeholder="In ETH"
             id="default-input"
-            className="bg-gray-50 w-20 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5 dark:border-gray-600 dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+            className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
           />
         </div>
         <div>
@@ -78,7 +79,7 @@ const CampaignField = (props) => {
               <input
                 name="start"
                 type="text"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date to start"
               />
             </div>
@@ -102,12 +103,14 @@ const CampaignField = (props) => {
               <input
                 name="end"
                 type="text"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Select date to end"
               />
             </div>
           </div>
-          <p className="text-xs font-thin">Max length is 30 days.</p>
+          <p className="text-xs font-thin">
+            Max length is 30 days. The transaction will fail if you go over 30.
+          </p>
         </div>
         <div className="w-3/4">
           <label
@@ -119,7 +122,7 @@ const CampaignField = (props) => {
           <textarea
             id="message"
             rows="4"
-            className="block p-2.5 min-w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="block p-2.5 min-w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500   dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Please give a detail description of your campaign."
             maxLength="4000"
           ></textarea>

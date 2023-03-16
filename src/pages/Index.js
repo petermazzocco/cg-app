@@ -5,17 +5,6 @@ import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Index = () => {
-  const icon = {
-    hidden: {
-      pathLength: 0,
-      fill: "rgba(255, 255, 255, 0)",
-    },
-    visible: {
-      pathLength: 1,
-      fill: "rgba(255, 255, 255, 1)",
-    },
-  };
-
   return (
     <div className="min-h-screen">
       <div className=" px-24 pt-48 text-black">
