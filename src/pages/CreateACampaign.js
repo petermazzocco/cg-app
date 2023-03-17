@@ -2,22 +2,51 @@ import MMButton from "../components/MMButton";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
-import CampaignField from "../components/CampaignField";
+import { launchCampaign } from "../utils/configs";
 
 const CreateACampaign = () => {
   const [agree, setAgree] = useState(false);
   const [account, setAccount] = useState();
+  const [signer, setSigner] = useState();
 
+  //Agree to ToS button
   const checkboxHandler = () => {
     setAgree(!agree);
   };
 
+  // Web3 connection
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
-    const signer = await provider.getSigner();
-    setAccount(await signer.getAddress());
+    const signerAccount = await provider.getSigner();
+    setSigner(signerAccount);
+    setAccount(await signerAccount.getAddress());
   }
+  // Create new Campaign
+  async function newContract() {
+    const title = document.getElementById("title").value.toString();
+    const description = document.getElementById("description").value.toString();
+    const goal = ethers.utils.parseEther(
+      document.getElementById("goal").value,
+      "ether"
+    );
+    const startAt = document.getElementById("startAt").value;
+    const endAt = document.getElementById("endAt").value;
+    try {
+      const tx = await launchCampaign(
+        signer,
+        title,
+        description,
+        goal,
+        startAt,
+        endAt
+      );
+      console.log(`Tx hash: ${tx.hash}`);
+    } catch (err) {
+      console.log(`Error when creating a contract: ${err}`);
+    }
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -67,12 +96,140 @@ const CreateACampaign = () => {
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <CampaignField account={account} />
+                  <p>Please fill out the form to create your campaign.</p>
+                  <form className="space-y-8">
+                    <div>
+                      <label
+                        for="default-input"
+                        className="block mb-2 text-sm font-medium text-black"
+                      >
+                        Creator
+                      </label>
+                      <input
+                        type="text"
+                        placeholder={account}
+                        id="owner"
+                        disabled
+                        className="bg-gray-50 border cursor-not-allowed border-gray-600 text-teal-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-teal-500  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="default-input"
+                        className="block mb-2 text-sm font-medium text-black"
+                      >
+                        Name
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="My Campaign"
+                        id="title"
+                        maxLength="50"
+                        className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                      />
+                      <p className="text-xs font-thin">
+                        Max 50 characters. The transaction will fail if you go
+                        over 50.
+                      </p>
+                    </div>
+                    <div className="">
+                      <label
+                        for="default-input"
+                        className="block mb-2 text-sm font-medium text-black"
+                      >
+                        Goal
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="In ETH"
+                        id="goal"
+                        className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        for="default-input"
+                        className="block mb-2 text-sm font-medium text-black"
+                      >
+                        Length
+                      </label>
+                      <div class="flex items-center">
+                        <div class="relative">
+                          <input
+                            type="text"
+                            id="startAt"
+                            class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Select date to start"
+                          />
+                        </div>
+                        <span class="mx-4 text-gray-500">to</span>
+                        <div class="relative">
+                          <input
+                            type="text"
+                            id="endAt"
+                            class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            placeholder="Select date to end"
+                          />
+                        </div>
+                      </div>
+                      <p className="text-xs font-thin">
+                        Max length is 30 days. The transaction will fail if you
+                        go over 30.
+                      </p>
+                    </div>
+                    <div className="w-3/4">
+                      <label
+                        for="message"
+                        className="block  text-sm font-medium text-black"
+                      >
+                        Description{" "}
+                        <span className="text-xs font-thin">**</span>
+                      </label>
+                      <textarea
+                        id="description"
+                        rows="4"
+                        className="block p-2.5 min-w-full text-sm text-black bg-gray-50 rounded-lg border border-gray-600 focus:ring-blue-500 focus:border-blue-500   dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Please give a detail description of your campaign."
+                        maxLength="4000"
+                      ></textarea>
+                      <p className="text-xs font-thin">
+                        Max 2000 characters. The transaction will fail if you go
+                        over 2000.
+                      </p>
+                    </div>
+                    <div className="w-1/3">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          newContract();
+                        }}
+                        className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
+                      >
+                        Create Your Campaign
+                      </button>
+                      <p className="text-xs font-thin pt-2">
+                        * Creating a campaign incurs gas fees to deploy and set
+                        the smart contract. Please have enough ETH in your
+                        wallet before submitting your campaign to cover these
+                        gas fees.
+                      </p>
+                      <p className="text-xs font-thin pt-2">
+                        ** The longer the description the higher the likelihood
+                        of a larger gas fees for deploying the contract will
+                        occur. Please keep that in mind when creating a
+                        description
+                      </p>
+                    </div>
+                  </form>
                 </motion.div>
               ) : (
                 <div className="grid justify-center space-y-2">
                   <p className="text-center">Now, connect your wallet:</p>
-                  <MMButton agree={agree} connectWallet={connectWallet} />
+                  <MMButton
+                    agree={agree}
+                    connectWallet={connectWallet}
+                    owner={account}
+                  />
                   <div className="grid justify-center">
                     <p>Don't have a wallet?</p>
                     <a

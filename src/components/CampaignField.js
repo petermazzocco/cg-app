@@ -1,26 +1,21 @@
 import React from "react";
 import { launchCampaign } from "../utils/configs";
+import { ethers } from "ethers";
 
 const CampaignField = (props) => {
+  // Create new Campaign
   async function newContract() {
-    const owner = props.account;
-    const title = document.getElementById("title").value;
-    const goal = document.getElementById("goal").value;
+    const title = document.getElementById("title").value.toString();
+    const description = document.getElementById("description").value.toString();
+    const goal = ethers.utils.parseEther(
+      document.getElementById("goal").value,
+      "ether"
+    );
     const startAt = document.getElementById("startAt").value;
     const endAt = document.getElementById("endAt").value;
-    const description = document.getElementById("description").value;
-
     try {
-      const tx = await launchCampaign(
-        owner,
-        title,
-        goal,
-        startAt,
-        endAt,
-        description
-      );
+      const tx = await launchCampaign(title, description, goal, startAt, endAt);
       console.log(`Tx hash: ${tx.hash}`);
-      const receipt = await tx.wait();
     } catch (err) {
       console.log(`Error when creating a contract: ${err}`);
     }
@@ -102,7 +97,6 @@ const CampaignField = (props) => {
                 </svg>
               </div>
               <input
-                name="start"
                 type="text"
                 id="startAt"
                 class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -127,7 +121,6 @@ const CampaignField = (props) => {
                 </svg>
               </div>
               <input
-                name="end"
                 type="text"
                 id="endAt"
                 class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -159,7 +152,10 @@ const CampaignField = (props) => {
         </div>
         <div className="w-1/3">
           <button
-            onClick={newContract}
+            onClick={(e) => {
+              e.preventDefault();
+              newContract();
+            }}
             className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
           >
             Create Your Campaign

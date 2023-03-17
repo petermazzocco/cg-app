@@ -2,18 +2,17 @@ import { ethers } from "ethers";
 import CrowdGaming from "../artifacts/contracts/CrowdGaming.sol/CrowdGaming.json";
 
 //Contract address
-const contractAddress =
-  "GOERLI_ADDRESS=0x4d075cBE13Be39d97c5D786958Dc0C167f59FAD9";
+const contractAddress = "0x4d075cBE13Be39d97c5D786958Dc0C167f59FAD9";
 
 export async function launchCampaign(
-  owner,
+  signer,
   title,
   description,
   goal,
   startAt,
   endAt
 ) {
-  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, owner);
+  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
   return factory.launchCampaign(title, description, goal, startAt, endAt);
 }
 
