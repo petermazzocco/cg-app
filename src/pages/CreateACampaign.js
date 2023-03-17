@@ -86,7 +86,7 @@ const CreateACampaign = () => {
                   className="w-4 h-4 text-blue-600 rounded focus:bg-gray-800  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-white border-gray-600"
                 />
                 <label
-                  for="link-checkbox"
+                  htmlFor="link-checkbox"
                   className="ml-2 text-sm font-medium text-gray-400"
                 >
                   I agree with the{" "}
@@ -110,7 +110,7 @@ const CreateACampaign = () => {
                   <form className="space-y-8">
                     <div>
                       <label
-                        for="default-input"
+                        htmlFor="default-input"
                         className="block mb-2 text-sm font-medium text-black"
                       >
                         Creator
@@ -125,7 +125,7 @@ const CreateACampaign = () => {
                     </div>
                     <div>
                       <label
-                        for="default-input"
+                        htmlFor="default-input"
                         className="block mb-2 text-sm font-medium text-black"
                       >
                         Name
@@ -137,14 +137,11 @@ const CreateACampaign = () => {
                         maxLength="50"
                         className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-1/2 p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
                       />
-                      <p className="text-xs font-thin">
-                        Max 50 characters. The transaction will fail if you go
-                        over 50.
-                      </p>
+                      <p className="text-xs font-thin">Max 50 characters.</p>
                     </div>
                     <div className="">
                       <label
-                        for="default-input"
+                        htmlFor="default-input"
                         className="block mb-2 text-sm font-medium text-black"
                       >
                         Goal
@@ -157,10 +154,10 @@ const CreateACampaign = () => {
                       />
                     </div>
                     <div>
-                      <div class="flex items-center">
-                        <div class="relative">
+                      <div className="flex items-center">
+                        <div className="relative">
                           <label
-                            for="default-input"
+                            htmlFor="default-input"
                             className="block mb-2 text-sm font-medium text-black"
                           >
                             Start At
@@ -168,14 +165,14 @@ const CreateACampaign = () => {
                           <input
                             type="text"
                             id="startAt"
-                            class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="00-00-0000"
                           />
                         </div>
-                        <span class="mx-4 text-gray-500">to</span>
-                        <div class="relative">
+                        <span className="mx-4 text-gray-500">to</span>
+                        <div className="relative">
                           <label
-                            for="default-input"
+                            htmlFor="default-input"
                             className="block mb-2 text-sm font-medium text-black"
                           >
                             End At
@@ -183,23 +180,21 @@ const CreateACampaign = () => {
                           <input
                             type="text"
                             id="endAt"
-                            class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="00-00-0000"
                           />
                         </div>
                       </div>
                       <p className="text-xs font-thin">
-                        Max length is 30 days. The transaction will fail if you
-                        go over 30.
+                        Max length is 30 days.
                       </p>
                     </div>
                     <div className="w-3/4">
                       <label
-                        for="message"
+                        htmlFor="message"
                         className="block  text-sm font-medium text-black"
                       >
-                        Description{" "}
-                        <span className="text-xs font-thin">**</span>
+                        Description
                       </label>
                       <textarea
                         id="description"
@@ -208,42 +203,48 @@ const CreateACampaign = () => {
                         placeholder="Please give a detail description of your campaign."
                         maxLength="4000"
                       ></textarea>
-                      <p className="text-xs font-thin">
-                        Max 2000 characters. The transaction will fail if you go
-                        over 2000.
-                      </p>
+                      <p className="text-xs font-thin">Max 2000 characters.</p>
                     </div>
                     <div className="w-1/3">
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          newContract();
-                        }}
-                        className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
-                      >
-                        Create Your Campaign
-                      </button>
                       {txHash ? (
-                        <div className="pt-2">
-                          <p className="text-sm font-bold">
-                            Creating Your Campaign...
-                          </p>
-                          {txHash}
-                        </div>
+                        <motion.button
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ delay: 0.2 }}
+                          className="pt-2 pb-2  border text-left text-white bg-yellow-600 hover:bg-yellow-500 border-black px-4 rounded-md "
+                        >
+                          <a
+                            href={`https://goerli.etherscan.io/tx/${txHash}`}
+                            className="xs:text-xs md:text-md lg:text-lg font-bold"
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            Creating Your Campaign...{" "}
+                            <span className="font-thin text-xs">
+                              {txHash.substring(0, 5)}...
+                              {txHash.substring(txHash.length - 20)}
+                            </span>
+                          </a>
+                        </motion.button>
                       ) : (
-                        <div></div>
+                        <div>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              newContract();
+                            }}
+                            className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
+                          >
+                            Create Your Campaign
+                          </button>
+                        </div>
                       )}
                       <p className="text-xs font-thin pt-2">
                         * Creating a campaign incurs gas fees to deploy and set
                         the smart contract. Please have enough ETH in your
                         wallet before submitting your campaign to cover these
                         gas fees.
-                      </p>
-                      <p className="text-xs font-thin pt-2">
-                        ** The longer the description the higher the likelihood
-                        of a larger gas fees for deploying the contract will
-                        occur. Please keep that in mind when creating a
-                        description
                       </p>
                     </div>
                   </form>

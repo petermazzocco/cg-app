@@ -15,14 +15,10 @@ const Footer = () => {
           </NavLink>
           <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-600 sm:mb-0 ">
             <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6">
-                Terms & Service
-              </a>
+              <p className="mr-4 hover:underline md:mr-6">Terms & Service</p>
             </li>
             <li>
-              <a href="#" className="mr-4 hover:underline md:mr-6 ">
-                Contact
-              </a>
+              <p className="mr-4 hover:underline md:mr-6 ">Contact</p>
             </li>
             <li>
               <a
