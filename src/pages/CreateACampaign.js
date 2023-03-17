@@ -8,6 +8,7 @@ const CreateACampaign = () => {
   const [agree, setAgree] = useState(false);
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();
+  const [txHash, setTxHash] = useState();
 
   //Agree to ToS button
   const checkboxHandler = () => {
@@ -22,10 +23,11 @@ const CreateACampaign = () => {
     setSigner(signerAccount);
     setAccount(await signerAccount.getAddress());
   }
+
   // Create new Campaign
   async function newContract() {
-    const title = document.getElementById("title").value.toString();
-    const description = document.getElementById("description").value.toString();
+    const title = document.getElementById("title").value;
+    const description = document.getElementById("description").value;
     const goal = ethers.utils.parseEther(
       document.getElementById("goal").value,
       "ether"
@@ -41,6 +43,7 @@ const CreateACampaign = () => {
         startAt,
         endAt
       );
+      setTxHash(tx.hash);
       console.log(`Tx hash: ${tx.hash}`);
     } catch (err) {
       console.log(`Error when creating a contract: ${err}`);
@@ -207,6 +210,23 @@ const CreateACampaign = () => {
                       >
                         Create Your Campaign
                       </button>
+                      {txHash ? (
+                        <div className="pt-2">
+                          <p className="text-sm font-bold">
+                            TX Hash:{" "}
+                            <a
+                              target="_blank"
+                              rel="noreferrer"
+                              href={`https://goerli.etherscan.io/tx/${txHash}`}
+                              className="font-thin hover:underline"
+                            >
+                              {txHash}
+                            </a>
+                          </p>
+                        </div>
+                      ) : (
+                        <></>
+                      )}
                       <p className="text-xs font-thin pt-2">
                         * Creating a campaign incurs gas fees to deploy and set
                         the smart contract. Please have enough ETH in your
