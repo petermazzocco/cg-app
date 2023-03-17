@@ -9,6 +9,7 @@ const CreateACampaign = () => {
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();
   const [txHash, setTxHash] = useState();
+  // const [isLoading, setIsLoading] = useState(false);
 
   //Agree to ToS button
   const checkboxHandler = () => {
@@ -32,8 +33,14 @@ const CreateACampaign = () => {
       document.getElementById("goal").value,
       "ether"
     );
-    const startAt = document.getElementById("startAt").value;
-    const endAt = document.getElementById("endAt").value;
+    const startAtInput = document.getElementById("startAt").value;
+    const endAtInput = document.getElementById("endAt").value;
+
+    // Parse startAt and endAt inputs into milliseconds since epoch
+    const startAtDate = new Date(startAtInput);
+    const endAtDate = new Date(endAtInput);
+    const startAt = startAtDate.getTime() / 1000;
+    const endAt = endAtDate.getTime() / 1000;
     try {
       const tx = await launchCampaign(
         signer,
@@ -44,7 +51,7 @@ const CreateACampaign = () => {
         endAt
       );
       setTxHash(tx.hash);
-      console.log(`Tx hash: ${tx.hash}`);
+      // setIsLoading(true);
     } catch (err) {
       console.log(`Error when creating a contract: ${err}`);
     }
@@ -76,7 +83,7 @@ const CreateACampaign = () => {
                   id="agree"
                   onChange={checkboxHandler}
                   value=""
-                  className="w-4 h-4 text-blue-600 rounded  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-white border-gray-600"
+                  className="w-4 h-4 text-blue-600 rounded focus:bg-gray-800  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-white border-gray-600"
                 />
                 <label
                   for="link-checkbox"
@@ -150,28 +157,34 @@ const CreateACampaign = () => {
                       />
                     </div>
                     <div>
-                      <label
-                        for="default-input"
-                        className="block mb-2 text-sm font-medium text-black"
-                      >
-                        Length
-                      </label>
                       <div class="flex items-center">
                         <div class="relative">
+                          <label
+                            for="default-input"
+                            className="block mb-2 text-sm font-medium text-black"
+                          >
+                            Start At
+                          </label>
                           <input
                             type="text"
                             id="startAt"
                             class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Select date to start"
+                            placeholder="00-00-0000"
                           />
                         </div>
                         <span class="mx-4 text-gray-500">to</span>
                         <div class="relative">
+                          <label
+                            for="default-input"
+                            className="block mb-2 text-sm font-medium text-black"
+                          >
+                            End At
+                          </label>
                           <input
                             type="text"
                             id="endAt"
                             class="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Select date to end"
+                            placeholder="00-00-0000"
                           />
                         </div>
                       </div>
@@ -213,19 +226,12 @@ const CreateACampaign = () => {
                       {txHash ? (
                         <div className="pt-2">
                           <p className="text-sm font-bold">
-                            TX Hash:{" "}
-                            <a
-                              target="_blank"
-                              rel="noreferrer"
-                              href={`https://goerli.etherscan.io/tx/${txHash}`}
-                              className="font-thin hover:underline"
-                            >
-                              {txHash}
-                            </a>
+                            Creating Your Campaign...
                           </p>
+                          {txHash}
                         </div>
                       ) : (
-                        <></>
+                        <div></div>
                       )}
                       <p className="text-xs font-thin pt-2">
                         * Creating a campaign incurs gas fees to deploy and set
