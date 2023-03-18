@@ -54,6 +54,7 @@ const CreateACampaign = () => {
       // setIsLoading(true);
     } catch (err) {
       console.log(`Error when creating a contract: ${err}`);
+      alert(err);
     }
   }
 
