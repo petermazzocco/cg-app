@@ -48,12 +48,56 @@ const AllCampaigns = () => {
             Search
           </button>
         </form>
-        {/*<p>Name: {campaign.title}</p>
-        <p>Description: {campaign.description}</p>
-        <p>Owner: {campaign.owner}</p>
-        <p>Goal:{campaign.goal.toHexString()}</p>*/}
       </div>
-      <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+      <div className="md:px-6">
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+      </div>
+      {!campaign ? (
+        <></>
+      ) : (
+        <div className="grid place-items-center w-full">
+          <div className="space-y-4 text-left xs:px-4 w-1/2">
+            <div>
+              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
+                Name:
+              </h2>
+              <p>{campaign.title}</p>
+            </div>
+            <div>
+              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
+                Description:
+              </h2>
+              <p>{campaign.description}</p>
+            </div>
+            <div>
+              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
+                Owner:
+              </h2>
+              <p>
+                {campaign.owner.substring(0, 5)}...
+                {campaign.owner.substring(campaign.owner.length - 4)}
+              </p>
+            </div>
+            <div>
+              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
+                Goal:
+              </h2>
+              <p>{campaign.goal.toHexString()}</p>
+            </div>
+            <div>
+              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
+                Ends On:
+              </h2>
+              <p>{campaign.endAt.toHexString()}</p>
+            </div>
+            <div>
+              <button className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md">
+                Pledge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
