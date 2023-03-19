@@ -221,11 +221,7 @@ const CreateACampaign = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            Creating Your Campaign...{" "}
-                            <span className="font-thin text-xs">
-                              {txHash.substring(0, 5)}...
-                              {txHash.substring(txHash.length - 20)}
-                            </span>
+                            Creating Campaign...
                           </a>
                         </motion.button>
                       ) : (

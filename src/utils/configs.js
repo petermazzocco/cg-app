@@ -24,9 +24,9 @@ export async function cancelCampaign(owner, id) {
 }
 
 // Pledge to a campaign
-export async function pledgeTo(id, donor, amount) {
-  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, donor);
-  return factory.pledgeTo(id, amount);
+export async function pledgeTo(signer, amount) {
+  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
+  return factory.pledgeTo(amount);
 }
 
 // Withdraw from a campaign
