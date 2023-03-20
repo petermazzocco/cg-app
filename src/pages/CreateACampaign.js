@@ -9,7 +9,7 @@ const CreateACampaign = () => {
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();
   const [txHash, setTxHash] = useState();
-  // const [isLoading, setIsLoading] = useState(false);
+  const [errMsg, setErrMsg] = useState();
 
   //Agree to ToS button
   const checkboxHandler = () => {
@@ -53,8 +53,8 @@ const CreateACampaign = () => {
       setTxHash(tx.hash);
       // setIsLoading(true);
     } catch (err) {
-      console.log(`Error when creating a contract: ${err}`);
-      alert(err);
+      console.log(err);
+      setErrMsg(`Uh oh, an error occured while creating the campaign.`);
     }
   }
 
@@ -66,7 +66,7 @@ const CreateACampaign = () => {
       transition={{ delay: 0.2 }}
       className="h-screen content-center justify-center grid"
     >
-      <div className="text-black grid justify-center place-items-center space-y-6">
+      <div className="text-black grid justify-center place-items-center space-y-6 xs:px-4">
         <div className="text-center space-y-3">
           <h1 className="md:text-3xl sm:text-2xl xs:text-xl">
             Create A Campaign
@@ -140,28 +140,32 @@ const CreateACampaign = () => {
                       />
                       <p className="text-xs font-thin">Max 50 characters.</p>
                     </div>
-                    <div className="">
-                      <label
-                        htmlFor="default-input"
-                        className="block mb-2 text-sm font-medium text-black"
-                      >
-                        Goal
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="In ETH"
-                        id="goal"
-                        className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                      />
-                    </div>
+
                     <div>
-                      <div className="flex items-center">
+                      <div className="flex items-center space-x-5">
+                        <div className="">
+                          <label
+                            htmlFor="default-input"
+                            className="block mb-2 text-sm font-medium text-black"
+                          >
+                            Goal
+                          </label>
+                          <input
+                            type="text"
+                            placeholder="In ETH"
+                            id="goal"
+                            className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                          />
+                        </div>
                         <div className="relative">
                           <label
                             htmlFor="default-input"
                             className="block mb-2 text-sm font-medium text-black"
                           >
-                            Start At
+                            Start At{" "}
+                            <span className="text-xs font-thin">
+                              [30 days max]
+                            </span>
                           </label>
                           <input
                             type="text"
@@ -186,9 +190,6 @@ const CreateACampaign = () => {
                           />
                         </div>
                       </div>
-                      <p className="text-xs font-thin">
-                        Max length is 30 days.
-                      </p>
                     </div>
                     <div className="w-3/4">
                       <label
@@ -235,6 +236,11 @@ const CreateACampaign = () => {
                           >
                             Create Your Campaign
                           </button>
+                          {errMsg ? (
+                            <p className="text-red-600">{errMsg}</p>
+                          ) : (
+                            <></>
+                          )}
                         </div>
                       )}
                       <p className="text-xs font-thin pt-2">

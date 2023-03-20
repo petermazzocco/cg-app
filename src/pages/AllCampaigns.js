@@ -14,6 +14,7 @@ const AllCampaigns = () => {
   const [txHash, setTxHash] = useState();
   const [signer, setSigner] = useState();
   const [account, setAccount] = useState();
+  const [errMsg, setErrMsg] = useState();
 
   // Web3 connection
   const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -43,23 +44,23 @@ const AllCampaigns = () => {
     // ethers contract METHODS
     const campaign = await contract.campaigns(id);
     setCampaign(campaign);
-    // console.log(JSON.stringify(campaign));
   }
 
   // Pledge to campaign
-
   async function pledgeToCampaign() {
+    const id = document.getElementById("id").value;
     const amount = ethers.utils.parseEther(
       document.getElementById("eth").value,
       "ether"
     );
 
     try {
-      const tx = await pledgeTo(signer, amount);
+      const tx = await pledgeTo(signer, id, amount);
       setTxHash(tx.hash);
       console.log(tx.hash);
     } catch (err) {
       console.log(err);
+      setErrMsg(`Uh oh, an error occured!`);
     }
   }
 
@@ -198,23 +199,35 @@ const AllCampaigns = () => {
                             Pledge
                           </button>
                         </div>
-
                         {txHash ? (
-                          <p className="font-xs font-bold text-teal-600 pt-2">
+                          <p className="font-xs font-bold text-teal-600 pt-2 grid justify-center">
                             Sending your pledge...{" "}
-                            <span className="font-thin text-teal-900">
-                              {txHash.substring(0, 4)}...
-                              {txHash.substring(txHash.length - 4)}
-                            </span>
+                            <a
+                              href={`https://goerli.etherscan.io/tx/${txHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-thin text-teal-900 hover:underline "
+                            >
+                              <span className="font-bold">TX:</span>{" "}
+                              {txHash.substring(0, 6)}...{" "}
+                              {txHash.substring(txHash.length - 6)}
+                            </a>
                           </p>
                         ) : (
-                          <p className="font-xs font-bold text-teal-600 pt-2">
-                            Connected:{" "}
-                            <span className="font-thin text-teal-900">
-                              {account.substring(0, 4)}...
-                              {account.substring(account.length - 4)}
-                            </span>
-                          </p>
+                          <>
+                            <p className="font-xs font-bold text-teal-600 pt-2">
+                              Connected:{" "}
+                              <span className="font-thin text-teal-900">
+                                {account.substring(0, 4)}...
+                                {account.substring(account.length - 4)}
+                              </span>
+                            </p>
+                            {errMsg ? (
+                              <p className="text-red-600">{errMsg}</p>
+                            ) : (
+                              <></>
+                            )}
+                          </>
                         )}
                       </div>
                     ) : (

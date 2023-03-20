@@ -1,10 +1,29 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import logo from "../img/logo2.png";
-
+import { ethers } from "ethers";
+import CrowdGaming from "../artifacts/contracts/CrowdGaming.sol/CrowdGaming.json";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Index = () => {
+  const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  //Contract address
+  const contractAddress = "0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C";
+  // Get total campaigns
+  useEffect(() => {
+    async function getTotalCampaigns() {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(
+        contractAddress,
+        CrowdGaming.abi,
+        provider
+      );
+      const campaigns = await contract.totalCampaigns();
+      setNumOfCampaigns(campaigns);
+      console.log(campaigns);
+    }
+    getTotalCampaigns();
+  }, []);
   return (
     <div className="min-h-screen">
       <div className=" px-24 pt-48 text-black">
@@ -50,6 +69,9 @@ const Index = () => {
           </div>
           <div className="md:col-span-1 xs:row-span-1 justify-center grid place-items-center xs:pt-10 md:pt-0">
             <img src={logo} className="w-1/3" alt="logo" />
+            <p className="font-bold pt-2">
+              Total Campaigns: {numOfCampaigns.toString()}
+            </p>
           </div>
         </div>
       </div>

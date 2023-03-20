@@ -18,25 +18,25 @@ export async function launchCampaign(
 }
 
 // Cancel a campaign
-export async function cancelCampaign(owner, id) {
-  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, owner);
+export async function cancelCampaign(signer, id) {
+  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
   return factory.cancelCampaign(id);
 }
 
 // Pledge to a campaign
-export async function pledgeTo(signer, amount) {
+export async function pledgeTo(signer, id, amount) {
   const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
-  return factory.pledgeTo(amount);
+  return factory.pledgeTo(id, { value: amount });
 }
 
 // Withdraw from a campaign
-export async function withdrawFrom(owner, id) {
-  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, owner);
+export async function withdrawFrom(signer, id) {
+  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
   return factory.withdrawFrom(id);
 }
 
 // Refund from a campaign
-export async function refund(id, donor, amount) {
-  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, donor);
-  return factory.refund(id, amount);
+export async function refund(signer, id, amount) {
+  const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
+  return factory.refund(id, { value: amount });
 }
