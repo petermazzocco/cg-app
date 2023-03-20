@@ -1,23 +1,15 @@
 import { useState, useEffect } from "react";
 import logo from "../img/logo2.png";
-import { ethers } from "ethers";
-import CrowdGaming from "../artifacts/contracts/CrowdGaming.sol/CrowdGaming.json";
+
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
+import { contract } from "../utils/configs";
 
 const Index = () => {
   const [numOfCampaigns, setNumOfCampaigns] = useState("");
-  //Contract address
-  const contractAddress = "0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C";
   // Get total campaigns
   useEffect(() => {
     async function getTotalCampaigns() {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(
-        contractAddress,
-        CrowdGaming.abi,
-        provider
-      );
       const campaigns = await contract.totalCampaigns();
       setNumOfCampaigns(campaigns);
     }

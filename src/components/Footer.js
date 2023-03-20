@@ -14,9 +14,11 @@ const Footer = () => {
             </div>
           </NavLink>
           <ul className="flex flex-wrap items-center mb-6 text-sm text-gray-600 sm:mb-0 ">
-            <li>
-              <p className="mr-4 hover:underline md:mr-6">Terms & Service</p>
-            </li>
+            <NavLink to="terms">
+              <li>
+                <p className="mr-4 hover:underline md:mr-6">Terms & Service</p>
+              </li>
+            </NavLink>
             <li>
               <a
                 href="https://goerli.etherscan.io/address/0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C"

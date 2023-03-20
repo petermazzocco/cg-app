@@ -2,6 +2,7 @@ import MMButton from "../components/MMButton";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
+import { NavLink } from "react-router-dom";
 import { launchCampaign, provider } from "../utils/configs";
 
 const CreateACampaign = () => {
@@ -93,9 +94,11 @@ const CreateACampaign = () => {
                   className="ml-2 text-sm font-medium text-gray-400"
                 >
                   I agree with the{" "}
-                  <span className="text-blue-600 dark:text-blue-500 hover:underline">
-                    terms and conditions
-                  </span>
+                  <NavLink to="/terms">
+                    <span className="text-blue-600 dark:text-blue-500 hover:underline">
+                      terms and conditions
+                    </span>
+                  </NavLink>
                   .
                 </label>
               </div>

@@ -1,8 +1,8 @@
 import MMButton from "../components/MMButton";
 import React, { useState } from "react";
-// import { motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ethers } from "ethers";
-
+import { NavLink } from "react-router-dom";
 import { pledgeTo, provider, contract, cancelCampaign } from "../utils/configs";
 import ProgressBar from "../components/ProgressBar";
 
@@ -98,7 +98,13 @@ const AllCampaigns = () => {
       {!campaign ? (
         <></>
       ) : (
-        <div className="grid place-items-center w-full">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ delay: 0.2 }}
+          className="grid place-items-center w-full"
+        >
           <div className="space-y-10 text-left xs:px-4 w-1/2">
             <div className="flex flex-row justify-start space-x-32">
               <div>
@@ -156,7 +162,7 @@ const AllCampaigns = () => {
             </div>
             <div className="grid justify-center">
               {campaign.endAt <= new Date().getTime() / 1000 ? (
-                <p className="font-bold text-red-500">Campaign Has Ended</p>
+                <p className="font-bold text-red-400">Campaign Has Ended</p>
               ) : (
                 <div className="flex flex-row space-x-5">
                   {!agree ? (
@@ -177,9 +183,11 @@ const AllCampaigns = () => {
                           className="ml-2 text-xs font-medium text-gray-400"
                         >
                           I agree with the{" "}
-                          <span className="text-blue-600 dark:text-blue-500 hover:underline">
-                            terms and conditions
-                          </span>
+                          <NavLink to="/terms">
+                            <span className="text-blue-600 dark:text-blue-500 hover:underline">
+                              terms and conditions
+                            </span>
+                          </NavLink>
                           .
                         </label>
                       </div>
@@ -209,8 +217,8 @@ const AllCampaigns = () => {
                                 new Date().getTime() / 1000 ? (
                                   <>
                                     <p>
-                                      You own this contract, do you want to
-                                      cancel?
+                                      You own this contract so you cannot donate
+                                      to it. Do you want to cancel?
                                     </p>
                                     <button
                                       className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
@@ -222,8 +230,12 @@ const AllCampaigns = () => {
                                 ) : (
                                   <>
                                     <p>
-                                      You own this contract, but you cannot
-                                      cancel it as it has already started.
+                                      You own this contract so you cannot donate
+                                      to it.
+                                    </p>
+                                    <p>
+                                      Also, you cannot cancel it as it has
+                                      already started.
                                     </p>
                                   </>
                                 )}
@@ -288,7 +300,7 @@ const AllCampaigns = () => {
               )}
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
