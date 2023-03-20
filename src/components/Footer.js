@@ -18,7 +18,13 @@ const Footer = () => {
               <p className="mr-4 hover:underline md:mr-6">Terms & Service</p>
             </li>
             <li>
-              <p className="mr-4 hover:underline md:mr-6 ">Contact</p>
+              <a
+                href="https://goerli.etherscan.io/address/0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <p className="mr-4 hover:underline md:mr-6">Contract</p>
+              </a>
             </li>
             <li>
               <a

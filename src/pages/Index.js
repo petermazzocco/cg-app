@@ -20,7 +20,6 @@ const Index = () => {
       );
       const campaigns = await contract.totalCampaigns();
       setNumOfCampaigns(campaigns);
-      console.log(campaigns);
     }
     getTotalCampaigns();
   }, []);
@@ -69,9 +68,14 @@ const Index = () => {
           </div>
           <div className="md:col-span-1 xs:row-span-1 justify-center grid place-items-center xs:pt-10 md:pt-0">
             <img src={logo} className="w-1/3" alt="logo" />
-            <p className="font-bold pt-2">
-              Total Campaigns: {numOfCampaigns.toString()}
-            </p>
+            <NavLink to="campaigns">
+              <p className="font-bold sm:text-xl md:text-2xl pt-2">
+                Total Campaigns:{" "}
+                <span className="text-teal-600">
+                  {numOfCampaigns.toString()}
+                </span>
+              </p>
+            </NavLink>
           </div>
         </div>
       </div>

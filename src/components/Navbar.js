@@ -43,15 +43,11 @@ const Navbar = () => {
                 </NavLink>
               </li>
               <li>
-                <a
-                  href="https://goerli.etherscan.io/address/0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C"
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <NavLink to="profile">
                   <p className="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  md:dark:hover:text-teal-600">
-                    Contract
+                    My Profile
                   </p>
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>
