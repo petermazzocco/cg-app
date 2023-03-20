@@ -1,24 +1,13 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import CrowdGaming from "../artifacts/contracts/CrowdGaming.sol/CrowdGaming.json";
 import MMButton from "../components/MMButton";
+import { provider, contract } from "../utils/configs";
 
 const Profile = () => {
   const [agree, setAgree] = useState(false);
   const [signer, setSigner] = useState();
   const [account, setAccount] = useState();
   const [pledged, setPledged] = useState();
-
-  //Contract address
-  const contractAddress = "0x882978f7Afef5bc38c73461f4Bf096e5dF03Ef5C";
-
-  // Web3 connection
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const contract = new ethers.Contract(
-    contractAddress,
-    CrowdGaming.abi,
-    provider
-  );
 
   //Agree to ToS button
   const checkboxHandler = () => {

@@ -2,7 +2,7 @@ import MMButton from "../components/MMButton";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
-import { launchCampaign } from "../utils/configs";
+import { launchCampaign, provider } from "../utils/configs";
 
 const CreateACampaign = () => {
   const [agree, setAgree] = useState(false);
@@ -17,7 +17,7 @@ const CreateACampaign = () => {
   };
 
   // Web3 connection
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+
   async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
     const networkId = await provider.getNetwork();
@@ -109,7 +109,12 @@ const CreateACampaign = () => {
                   exit={{ opacity: 0 }}
                   transition={{ delay: 0.4 }}
                 >
-                  <p>Please fill out the form to create your campaign.</p>
+                  <p className="text-center">
+                    Please fill out the form to create your campaign.
+                  </p>
+                  <div className="md:px-6">
+                    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                  </div>
                   <form className="space-y-8">
                     <div>
                       <label

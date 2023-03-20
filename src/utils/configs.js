@@ -40,3 +40,11 @@ export async function refund(signer, id, amount) {
   const factory = new ethers.Contract(contractAddress, CrowdGaming.abi, signer);
   return factory.refund(id, { value: amount });
 }
+
+//Providers and Contract promises
+export const provider = new ethers.providers.Web3Provider(window.ethereum);
+export const contract = new ethers.Contract(
+  contractAddress,
+  CrowdGaming.abi,
+  provider
+);
