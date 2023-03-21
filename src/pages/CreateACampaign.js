@@ -244,7 +244,7 @@ const CreateACampaign = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            Creating Campaign #{numOfCampaigns.toString() + 1}
+                            Creating Campaign #{numOfCampaigns.toString()}
                           </a>
                         </motion.button>
                       ) : (
