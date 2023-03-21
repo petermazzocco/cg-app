@@ -16,10 +16,10 @@ const ProgressBar = ({ campaign }) => {
       <div
         value={percentagePledged}
         max="100"
-        className="w-full rounded-sm h-5 border-2 border-teal-400 bg-gray-300"
+        className="w-full rounded-md h-5 border-2 border-black bg-gray-200"
       >
         <div
-          className="bg-gradient-to-r from-red-200 to-green-500 h-4 rounded-sm"
+          className="bg-gradient-to-r from-gray-200 to-green-500 h-4 rounded-md"
           style={{ width: `${percentagePledged}%` }}
         ></div>
       </div>

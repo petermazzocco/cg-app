@@ -1,10 +1,10 @@
 import MMButton from "../components/MMButton";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import { NavLink } from "react-router-dom";
 import { pledgeTo, provider, contract, cancelCampaign } from "../utils/configs";
-import ProgressBar from "../components/ProgressBar";
+
+import Campaign from "../components/Campaign";
 
 const AllCampaigns = () => {
   const [agree, setAgree] = useState(false);
@@ -13,7 +13,6 @@ const AllCampaigns = () => {
   const [signer, setSigner] = useState();
   const [account, setAccount] = useState();
   const [errMsg, setErrMsg] = useState();
-  const [owner, setOwner] = useState();
   const [cancelHash, setCancelHash] = useState();
 
   //Agree to ToS button
@@ -96,211 +95,164 @@ const AllCampaigns = () => {
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
       </div>
       {!campaign ? (
-        <></>
+        <h2 className="text-center xs:text-xl sm:text-2xl text-teal-600 pt-10">
+          Enter an ID to find a campaign to pledge to
+        </h2>
       ) : (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ delay: 0.2 }}
-          className="grid place-items-center w-full"
-        >
-          <div className="space-y-10 text-left xs:px-4 w-1/2">
-            <div className="flex flex-row justify-start space-x-32">
-              <div>
-                <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                  Name:
-                </h2>
-                <p>{campaign.title}</p>
-              </div>
-              <div>
-                <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                  Owner:
-                </h2>
-                <p>
-                  {campaign.owner.substring(0, 5)}...
-                  {campaign.owner.substring(campaign.owner.length - 4)}
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-row justify-start">
-              <div className="w-full">
-                <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                  Campaign Progress:
-                </h2>
-                <ProgressBar campaign={campaign} />
-              </div>
-            </div>
-            <div className="flex flex-row justify-start space-x-32">
-              <div>
-                <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                  Starts On:
-                </h2>
-                <p>
-                  {new Date(
-                    campaign.startAt.toNumber() * 1000
-                  ).toLocaleString()}
-                </p>
-              </div>
-              <div>
-                <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                  Ends On:
-                </h2>
-                <p>
-                  {new Date(campaign.endAt.toNumber() * 1000).toLocaleString()}
-                </p>
-              </div>
-            </div>
-            <div>
-              <h2 className="xs:text-md lg:text-lg xl:text-xl text-teal-600">
-                Description:
-              </h2>
-              <p>{campaign.description}</p>
-            </div>
-            <div className="md:px-2">
-              <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
-            </div>
-            <div className="grid justify-center">
-              {campaign.endAt <= new Date().getTime() / 1000 ? (
-                <p className="font-bold text-red-400">Campaign Has Ended</p>
-              ) : (
-                <div className="flex flex-row space-x-5">
-                  {!agree ? (
-                    <div className="grid justify-center space-y-2">
-                      <p className="text-left xs:text-md md:text-lg font-bold">
-                        Want To Pledge?
-                      </p>
-                      <div className="flex items-center">
-                        <input
-                          type="checkbox"
-                          id="agree"
-                          onChange={checkboxHandler}
-                          value=""
-                          className="w-4 h-4 text-blue-600 rounded focus:bg-gray-800  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-white border-gray-600"
-                        />
-                        <label
-                          htmlFor="link-checkbox"
-                          className="ml-2 text-xs font-medium text-gray-400"
-                        >
-                          I agree with the{" "}
-                          <NavLink to="/terms">
-                            <span className="text-blue-600 dark:text-blue-500 hover:underline">
-                              terms and conditions
-                            </span>
-                          </NavLink>
-                          .
-                        </label>
-                      </div>
+        <>
+          <div className="xs:px-10 sm:px-14 md:px-24 pb-24">
+            <Campaign
+              title={campaign.title}
+              owner={`${campaign.owner.substring(0, 5)}...
+                  ${campaign.owner.substring(campaign.owner.length - 4)}`}
+              campaign={campaign}
+              startDate={new Date(
+                campaign.startAt.toNumber() * 1000
+              ).toLocaleString()}
+              endDate={new Date(
+                campaign.endAt.toNumber() * 1000
+              ).toLocaleString()}
+              description={campaign.description}
+            />
+          </div>
+          <div className="grid justify-center">
+            {campaign.endAt <= new Date().getTime() / 1000 ? (
+              <p className="font-bold text-red-400">Campaign Has Ended</p>
+            ) : (
+              <div className="flex flex-row space-x-5">
+                {!agree ? (
+                  <div className="grid justify-center space-y-2">
+                    <p className="text-left xs:text-md md:text-lg font-bold">
+                      Want To Pledge?
+                    </p>
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id="agree"
+                        onChange={checkboxHandler}
+                        value=""
+                        className="w-4 h-4 text-blue-600 rounded focus:bg-gray-800  focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-white border-gray-600"
+                      />
+                      <label
+                        htmlFor="link-checkbox"
+                        className="ml-2 text-xs font-medium text-gray-400"
+                      >
+                        I agree with the{" "}
+                        <NavLink to="/terms">
+                          <span className="text-blue-600 dark:text-blue-500 hover:underline">
+                            terms and conditions
+                          </span>
+                        </NavLink>
+                        .
+                      </label>
                     </div>
-                  ) : (
-                    <div>
-                      {account ? (
+                  </div>
+                ) : (
+                  <div>
+                    {account ? (
+                      <div className="grid justify-center">
                         <div>
-                          <div className="flex flex-row space-x-4">
-                            {account !== campaign.owner ? (
-                              <div>
-                                <input
-                                  placeholder="In ETH"
-                                  id="eth"
-                                  className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
-                                />
-                                <button
-                                  onClick={pledgeToCampaign}
-                                  className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
-                                >
-                                  Pledge
-                                </button>
-                              </div>
-                            ) : (
-                              <div>
-                                {campaign.endAt <=
-                                new Date().getTime() / 1000 ? (
-                                  <>
-                                    <p>
-                                      You own this contract so you cannot donate
-                                      to it. Do you want to cancel?
-                                    </p>
-                                    <button
-                                      className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
-                                      onClick={cancelCampaigns}
-                                    >
-                                      Cancel
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <p>
-                                      You own this contract so you cannot donate
-                                      to it.
-                                    </p>
-                                    <p>
-                                      Also, you cannot cancel it as it has
-                                      already started.
-                                    </p>
-                                  </>
-                                )}
-                                {cancelHash ? (
-                                  <a
-                                    href={`https://goerli.etherscan.io/tx/${cancelHash}`}
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="font-thin text-teal-900 hover:underline "
-                                  >
-                                    Cancelling campaign...
-                                  </a>
-                                ) : (
-                                  <></>
-                                )}
-                              </div>
-                            )}
-                          </div>
-
-                          {txHash ? (
-                            <p className="font-xs font-bold text-teal-600 pt-2 grid justify-center">
-                              Sending your pledge...{" "}
-                              <a
-                                href={`https://goerli.etherscan.io/tx/${txHash}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="font-thin text-teal-900 hover:underline "
+                          {account !== campaign.owner ? (
+                            <div className="flex flex-row space-x-4 justify-between">
+                              <input
+                                placeholder="In ETH"
+                                id="eth"
+                                className="bg-gray-50 w-20 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                              />
+                              <button
+                                onClick={pledgeToCampaign}
+                                className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
                               >
-                                <span className="font-bold">TX:</span>{" "}
-                                {txHash.substring(0, 6)}...{" "}
-                                {txHash.substring(txHash.length - 6)}
-                              </a>
-                            </p>
+                                Pledge
+                              </button>
+                            </div>
                           ) : (
-                            <>
-                              <p className="font-xs font-bold text-teal-600 pt-2">
-                                Connected:{" "}
-                                <span className="font-thin text-teal-900">
-                                  {account.substring(0, 4)}...
-                                  {account.substring(account.length - 4)}
-                                </span>
-                              </p>
-
-                              {errMsg ? (
-                                <p className="text-red-600">{errMsg}</p>
+                            <div>
+                              {campaign.endAt <= new Date().getTime() / 1000 ? (
+                                <>
+                                  <p>
+                                    You own this contract so you cannot donate
+                                    to it. Do you want to cancel?
+                                  </p>
+                                  <button
+                                    className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
+                                    onClick={cancelCampaigns}
+                                  >
+                                    Cancel
+                                  </button>
+                                </>
+                              ) : (
+                                <div className="w-full grid justify-center space-y-2 text-xs text-center">
+                                  <p>
+                                    You own this campaign so you cannot donate
+                                    to it.
+                                  </p>
+                                  <p>
+                                    Please check back at the end of the campaign
+                                    to see if you can withdraw funds.
+                                  </p>
+                                </div>
+                              )}
+                              {cancelHash ? (
+                                <a
+                                  href={`https://goerli.etherscan.io/tx/${cancelHash}`}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  className="font-thin text-teal-900 hover:underline "
+                                >
+                                  Cancelling campaign...
+                                </a>
                               ) : (
                                 <></>
                               )}
-                            </>
+                            </div>
                           )}
                         </div>
-                      ) : (
-                        <MMButton
-                          agree={agree}
-                          connectWallet={connectWallet}
-                          owner={account}
-                        />
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+                        {txHash ? (
+                          <p className="font-xs font-bold text-teal-600 pt-2 grid justify-center">
+                            Sending your pledge...{" "}
+                            <a
+                              href={`https://goerli.etherscan.io/tx/${txHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-thin text-teal-900 hover:underline "
+                            >
+                              <span className="font-bold">TX:</span>{" "}
+                              {txHash.substring(0, 6)}...{" "}
+                              {txHash.substring(txHash.length - 6)}
+                            </a>
+                          </p>
+                        ) : (
+                          <>
+                            <p className="font-xs font-bold text-teal-600 pt-2">
+                              Connected:{" "}
+                              <span className="font-thin text-teal-900">
+                                {account.substring(0, 4)}...
+                                {account.substring(account.length - 4)}
+                              </span>
+                            </p>
+
+                            {errMsg ? (
+                              <p className="text-red-600">{errMsg}</p>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    ) : (
+                      <MMButton
+                        agree={agree}
+                        connectWallet={connectWallet}
+                        owner={account}
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
-        </motion.div>
+        </>
       )}
     </div>
   );

@@ -1,10 +1,9 @@
 import MMButton from "../components/MMButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import { NavLink } from "react-router-dom";
-import { launchCampaign, provider } from "../utils/configs";
-
+import { launchCampaign, provider, contract } from "../utils/configs";
 const CreateACampaign = () => {
   const [agree, setAgree] = useState(false);
   const [account, setAccount] = useState();
@@ -60,6 +59,17 @@ const CreateACampaign = () => {
       setErrMsg(`Uh oh, an error occured while creating the campaign.`);
     }
   }
+
+  // Get campaign ID
+  const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  // Get total campaigns
+  useEffect(() => {
+    async function getTotalCampaigns() {
+      const campaigns = await contract.totalCampaigns();
+      setNumOfCampaigns(campaigns);
+    }
+    getTotalCampaigns();
+  }, []);
 
   return (
     <motion.div
@@ -180,6 +190,7 @@ const CreateACampaign = () => {
                           <input
                             type="text"
                             id="startAt"
+                            maxLength="10"
                             className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="00-00-0000"
                           />
@@ -195,6 +206,7 @@ const CreateACampaign = () => {
                           <input
                             type="text"
                             id="endAt"
+                            maxLength="10"
                             className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
                             placeholder="00-00-0000"
                           />
@@ -232,7 +244,7 @@ const CreateACampaign = () => {
                             target="_blank"
                             rel="noreferrer"
                           >
-                            Creating Campaign...
+                            Creating Campaign #{numOfCampaigns.toString() + 1}
                           </a>
                         </motion.button>
                       ) : (
