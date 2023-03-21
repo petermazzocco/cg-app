@@ -2,7 +2,13 @@ import MMButton from "../components/MMButton";
 import React, { useState } from "react";
 import { ethers } from "ethers";
 import { NavLink } from "react-router-dom";
-import { pledgeTo, provider, contract, cancelCampaign } from "../utils/configs";
+import {
+  pledgeTo,
+  provider,
+  contract,
+  cancelCampaign,
+  withdrawFrom,
+} from "../utils/configs";
 
 import Campaign from "../components/Campaign";
 
@@ -14,6 +20,7 @@ const AllCampaigns = () => {
   const [account, setAccount] = useState();
   const [errMsg, setErrMsg] = useState();
   const [cancelHash, setCancelHash] = useState();
+  const [withdrawHash, setWithdrawHash] = useState();
 
   //Agree to ToS button
   const checkboxHandler = () => {
@@ -32,7 +39,6 @@ const AllCampaigns = () => {
   async function getCampaigns(e) {
     e.preventDefault();
     const id = document.getElementById("id").value;
-    // ethers contract METHODS
     const campaign = await contract.campaigns(id);
     setCampaign(campaign);
   }
@@ -48,9 +54,7 @@ const AllCampaigns = () => {
     try {
       const tx = await pledgeTo(signer, id, amount);
       setTxHash(tx.hash);
-      console.log(tx.hash);
     } catch (err) {
-      console.log(err);
       setErrMsg(`Uh oh, an error occured!`);
     }
   }
@@ -59,13 +63,28 @@ const AllCampaigns = () => {
   async function cancelCampaigns() {
     const id = document.getElementById("id").value;
     if (account !== campaign.owner) {
-      alert("you're not the owner");
+      alert("You're not the owner and you cannot withdraw from this campaign");
     } else {
       try {
         const cancel = await cancelCampaign(signer, id);
         setCancelHash(cancel.hash);
       } catch (err) {
-        console.log(err);
+        alert(err);
+      }
+    }
+  }
+
+  // Withdraw from campaign
+  async function withdrawFunds() {
+    const id = document.getElementById("id").value;
+    if (account !== campaign.owner) {
+      alert("You're not the owner and you cannot withdraw from this campaign");
+    } else {
+      try {
+        const withdraw = await withdrawFrom(signer, id);
+        setWithdrawHash(withdraw.hash);
+      } catch (err) {
+        alert(err);
       }
     }
   }
@@ -168,11 +187,12 @@ const AllCampaigns = () => {
                             </div>
                           ) : (
                             <div>
-                              {campaign.endAt <= new Date().getTime() / 1000 ? (
-                                <>
+                              {campaign.startAt >=
+                              new Date().getTime() / 1000 ? (
+                                <div className="w-full grid justify-center space-y-2 text-xs text-center">
                                   <p>
-                                    You own this contract so you cannot donate
-                                    to it. Do you want to cancel?
+                                    The campaign hasn't started yet. Do you want
+                                    to cancel?
                                   </p>
                                   <button
                                     className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
@@ -180,17 +200,41 @@ const AllCampaigns = () => {
                                   >
                                     Cancel
                                   </button>
-                                </>
+                                </div>
                               ) : (
                                 <div className="w-full grid justify-center space-y-2 text-xs text-center">
                                   <p>
                                     You own this campaign so you cannot donate
                                     to it.
                                   </p>
-                                  <p>
-                                    Please check back at the end of the campaign
-                                    to see if you can withdraw funds.
-                                  </p>
+                                  {campaign.endAt <
+                                  new Date().getTime() / 1000 ? (
+                                    <>
+                                      <button
+                                        className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
+                                        onClick={withdrawFunds}
+                                      >
+                                        Withdraw
+                                      </button>
+                                      {withdrawHash ? (
+                                        <a
+                                          href={`https://goerli.etherscan.io/tx/${withdrawHash}`}
+                                          target="_blank"
+                                          rel="noreferrer"
+                                          className="font-thin text-teal-900 hover:underline "
+                                        >
+                                          Withdrawing funds...
+                                        </a>
+                                      ) : (
+                                        <></>
+                                      )}
+                                    </>
+                                  ) : (
+                                    <p>
+                                      Please wait until the campaign has ended
+                                      to withdraw funds.
+                                    </p>
+                                  )}
                                 </div>
                               )}
                               {cancelHash ? (
