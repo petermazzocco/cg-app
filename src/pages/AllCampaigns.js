@@ -142,7 +142,7 @@ const AllCampaigns = () => {
                 {!agree ? (
                   <div className="grid justify-center space-y-2">
                     <p className="text-left xs:text-md md:text-lg font-bold">
-                      Want To Pledge?
+                      Connect Wallet To Interact
                     </p>
                     <div className="flex items-center">
                       <input
