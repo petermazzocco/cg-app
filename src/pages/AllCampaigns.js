@@ -224,14 +224,6 @@ const AllCampaigns = () => {
                           </p>
                         ) : (
                           <>
-                            <p className="font-xs font-bold text-teal-600 pt-2">
-                              Connected:{" "}
-                              <span className="font-thin text-teal-900">
-                                {account.substring(0, 4)}...
-                                {account.substring(account.length - 4)}
-                              </span>
-                            </p>
-
                             {errMsg ? (
                               <p className="text-red-600">{errMsg}</p>
                             ) : (
