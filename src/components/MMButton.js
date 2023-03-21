@@ -9,7 +9,6 @@ const MMButton = (props) => {
         exit={{ opacity: 0 }}
         transition={{ delay: 0.2 }}
         type="button"
-        disabled={!props.agree}
         onClick={props.connectWallet}
         className="text-white bg-[#F6851B] hover:text-[#F6851B] border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 mr-2 mb-2"
       >

@@ -16,7 +16,7 @@ const ProgressBar = ({ campaign }) => {
       <div
         value={percentagePledged}
         max="100"
-        className="w-full rounded-md h-5 border-2 border-black bg-gray-200"
+        className="w-full rounded-md h-4.5 border border-black bg-gray-200"
       >
         <div
           className="bg-gradient-to-r from-gray-200 to-green-500 h-4 rounded-md"
