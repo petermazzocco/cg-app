@@ -2,8 +2,8 @@ import MMButton from "../components/MMButton";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
-import { NavLink } from "react-router-dom";
 import { launchCampaign, provider, contract } from "../utils/configs";
+
 const CreateACampaign = () => {
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();

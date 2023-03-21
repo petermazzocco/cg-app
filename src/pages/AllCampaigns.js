@@ -126,10 +126,139 @@ const AllCampaigns = () => {
             ).toLocaleString()}
             description={campaign.description}
           />
+          {/* If account is campaign owner, remove pledge. If the campaign hasn't started, display cancel button. If campaign has started, display warning. If campaign has ended and goal was met, display Withdraw*/}
+          <div className="grid justify-center space-y-2 pt-10">
+            {account ? (
+              <>
+                <p className="font-xs font-bold text-teal-600 pt-2">
+                  Connected:{" "}
+                  <span className="font-thin text-teal-900">
+                    {account.substring(0, 4)}...
+                    {account.substring(account.length - 4)}
+                  </span>
+                </p>
+                {/* If the owner connects to the account*/}
+                {account === campaign.owner ? (
+                  <div>
+                    {/* If the campaign has ended*/}
+                    {campaign.endAt <= new Date().getTime() / 1000 ? (
+                      <div>
+                        <p className="font-bold text-red-400">
+                          Campaign Has Ended
+                        </p>
+                        <p>Connect your wallet to withdraw funds</p>
+                        <button
+                          className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
+                          onClick={withdrawFunds}
+                        >
+                          Withdraw
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="text-center space-y-2">
+                        {/* If the campaign hasn't started*/}
+                        {campaign.startAt >= new Date().getTime() / 1000 ? (
+                          <>
+                            <p>Your campaign hasn't started</p>
+                            <p>Do you want to cancel it?</p>
+                            <button
+                              className="border w-full border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
+                              onClick={cancelCampaigns}
+                            >
+                              Cancel
+                            </button>
+                            {/* Cancellation Hash */}
+                            {cancelHash ? (
+                              <a
+                                href={`https://goerli.etherscan.io/tx/${cancelHash}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="font-thin text-teal-900 hover:underline "
+                              >
+                                Cancelling campaign...
+                              </a>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <p> Your Campaign Is Active</p>
+                            <p> Check Back Later</p>
+                          </>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid justify-center space-y-4 ">
+                    {/* If anyone else connects*/}
+                    {/* If the campaign is active*/}
+                    {campaign.endAt >= new Date().getTime() / 1000 ? (
+                      <>
+                        <input
+                          placeholder="In ETH"
+                          id="eth"
+                          className="bg-gray-50 w-full border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
+                        />
+                        <button
+                          onClick={pledgeToCampaign}
+                          className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
+                        >
+                          Pledge
+                        </button>
+                        {/* Transaction Hash for pledging */}
+                        {txHash ? (
+                          <p className="font-xs font-bold text-teal-600 pt-2 grid justify-center">
+                            Sending your pledge...{" "}
+                            <a
+                              href={`https://goerli.etherscan.io/tx/${txHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-thin text-teal-900 hover:underline "
+                            >
+                              <span className="font-bold">TX:</span>{" "}
+                              {txHash.substring(0, 6)}...{" "}
+                              {txHash.substring(txHash.length - 6)}
+                            </a>
+                          </p>
+                        ) : (
+                          <>
+                            <p className="font-xs font-bold text-teal-600 pt-2">
+                              Connected:{" "}
+                              <span className="font-thin text-teal-900">
+                                {account.substring(0, 4)}...
+                                {account.substring(account.length - 4)}
+                              </span>
+                            </p>
+
+                            {errMsg ? (
+                              <p className="text-red-600">{errMsg}</p>
+                            ) : (
+                              <></>
+                            )}
+                          </>
+                        )}
+                      </>
+                    ) : (
+                      <p className="font-bold text-red-400">
+                        Campaign Has Ended
+                      </p>
+                    )}
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <p className="text-left xs:text-md md:text-lg font-bold">
+                  Connect Wallet To Interact
+                </p>
+                <MMButton connectWallet={connectWallet} owner={account} />
+              </>
+            )}
+          </div>
         </div>
       )}
-      {/* If account is campaign owner, remove pledge. If the campaign hasn't started, display cancel button. If campaign has started, display warning. If campaign has ended and goal was met, display Withdraw*/}
-      <div className="grid justify-center"></div>
     </div>
   );
 };
