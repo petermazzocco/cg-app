@@ -129,8 +129,8 @@ const AllCampaigns = () => {
           {/* If account is campaign owner, remove pledge. If the campaign hasn't started, display cancel button. If campaign has started, display warning. If campaign has ended and goal was met, display Withdraw*/}
           <div className="grid justify-center space-y-2 pt-10">
             {account ? (
-              <>
-                <p className="font-xs font-bold text-teal-600 pt-2">
+              <div className="text-center">
+                <p className="font-xs font-bold text-teal-600 pt-2 pb-2">
                   Connected:{" "}
                   <span className="font-thin text-teal-900">
                     {account.substring(0, 4)}...
@@ -142,13 +142,13 @@ const AllCampaigns = () => {
                   <div>
                     {/* If the campaign has ended*/}
                     {campaign.endAt <= new Date().getTime() / 1000 ? (
-                      <div>
+                      <div className="space-y-2 text-center">
                         <p className="font-bold text-red-400">
                           Campaign Has Ended
                         </p>
                         <p>Connect your wallet to withdraw funds</p>
                         <button
-                          className="border border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
+                          className="border w-full border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
                           onClick={withdrawFunds}
                         >
                           Withdraw
@@ -224,6 +224,7 @@ const AllCampaigns = () => {
                           </p>
                         ) : (
                           <>
+                            {/* Throw error message */}
                             {errMsg ? (
                               <p className="text-red-600">{errMsg}</p>
                             ) : (
@@ -239,7 +240,7 @@ const AllCampaigns = () => {
                     )}
                   </div>
                 )}
-              </>
+              </div>
             ) : (
               <>
                 <p className="text-left xs:text-md md:text-lg font-bold">

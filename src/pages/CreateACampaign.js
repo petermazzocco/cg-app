@@ -14,8 +14,6 @@ const CreateACampaign = () => {
 
   async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
-    const networkId = await provider.getNetwork();
-    console.log(networkId);
     const signerAccount = await provider.getSigner();
     setSigner(signerAccount);
     setAccount(await signerAccount.getAddress());
