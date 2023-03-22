@@ -1,7 +1,7 @@
 import MMButton from "../components/MMButton";
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { NavLink } from "react-router-dom";
+
 import {
   pledgeTo,
   provider,
@@ -153,6 +153,20 @@ const AllCampaigns = () => {
                         >
                           Withdraw
                         </button>
+                        {withdrawHash ? (
+                          <>
+                            <a
+                              href={`https://goerli.etherscan.io/tx/${withdrawHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-thin text-teal-900 hover:underline "
+                            >
+                              Withdrawing funds...
+                            </a>
+                          </>
+                        ) : (
+                          <></>
+                        )}
                       </div>
                     ) : (
                       <div className="text-center space-y-2">

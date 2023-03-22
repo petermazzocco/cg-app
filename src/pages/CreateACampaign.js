@@ -52,17 +52,6 @@ const CreateACampaign = () => {
     }
   }
 
-  // Get campaign ID
-  const [numOfCampaigns, setNumOfCampaigns] = useState("");
-  // Get total campaigns
-  useEffect(() => {
-    async function getTotalCampaigns() {
-      const campaigns = await contract.totalCampaigns();
-      setNumOfCampaigns(campaigns);
-    }
-    getTotalCampaigns();
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0 }}

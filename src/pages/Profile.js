@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ethers } from "ethers";
+
 import MMButton from "../components/MMButton";
 import { provider, contract } from "../utils/configs";
 
