@@ -81,6 +81,7 @@ const AllCampaigns = () => {
       try {
         const cancel = await cancelCampaign(signer, id);
         setCancelHash(cancel.hash);
+        setTimeout(() => setShowModal(true), 1000);
       } catch (err) {
         alert(err);
       }
@@ -96,6 +97,7 @@ const AllCampaigns = () => {
       try {
         const withdraw = await withdrawFrom(signer, id);
         setWithdrawHash(withdraw.hash);
+        setTimeout(() => setShowModal(true), 1000);
       } catch (err) {
         alert(err);
       }
@@ -212,17 +214,40 @@ const AllCampaigns = () => {
                         >
                           Withdraw
                         </button>
-                        {withdrawHash ? (
-                          <>
-                            <a
-                              href={`https://goerli.etherscan.io/tx/${withdrawHash}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="font-thin text-teal-900 hover:underline "
+                        {showModal && withdrawHash ? (
+                          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="bg-white p-24 rounded-md space-y-6"
                             >
-                              Withdrawing funds...
-                            </a>
-                          </>
+                              <div>
+                                <h2 className="font-black text-xl text-teal-600 text-center">
+                                  Success!
+                                </h2>
+                                <p className="text-md font-bold text-black pt-2 grid justify-center">
+                                  Your funds are on the way
+                                  <a
+                                    href={`https://goerli.etherscan.io/tx/${withdrawHash}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="font-thin text-teal-900 hover:underline "
+                                  >
+                                    <span className="font-bold">TX:</span>{" "}
+                                    {withdrawHash.substring(0, 6)}...{" "}
+                                    {withdrawHash.substring(
+                                      withdrawHash.length - 6
+                                    )}
+                                  </a>
+                                </p>
+                              </div>
+                              <div className="md:px-6">
+                                <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                              </div>
+                              <div className="">
+                                <DonateToDev />
+                              </div>
+                            </div>
+                          </div>
                         ) : (
                           <></>
                         )}
@@ -241,15 +266,40 @@ const AllCampaigns = () => {
                               Cancel
                             </button>
                             {/* Cancellation Hash */}
-                            {cancelHash ? (
-                              <a
-                                href={`https://goerli.etherscan.io/tx/${cancelHash}`}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="font-thin text-teal-900 hover:underline "
-                              >
-                                Cancelling campaign...
-                              </a>
+                            {showModal && cancelHash ? (
+                              <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="bg-white p-24 rounded-md space-y-6"
+                                >
+                                  <div>
+                                    <h2 className="font-black text-xl text-teal-600 text-center">
+                                      Successfully Cancelled
+                                    </h2>
+                                    <p className="text-md font-bold text-black pt-2 grid justify-center">
+                                      Your campaign has been cancelled.
+                                      <a
+                                        href={`https://goerli.etherscan.io/tx/${cancelHash}`}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="font-thin text-teal-900 hover:underline "
+                                      >
+                                        <span className="font-bold">TX:</span>{" "}
+                                        {cancelHash.substring(0, 6)}...{" "}
+                                        {cancelHash.substring(
+                                          cancelHash.length - 6
+                                        )}
+                                      </a>
+                                    </p>
+                                  </div>
+                                  <div className="md:px-6">
+                                    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                                  </div>
+                                  <div className="">
+                                    <DonateToDev />
+                                  </div>
+                                </div>
+                              </div>
                             ) : (
                               <></>
                             )}
