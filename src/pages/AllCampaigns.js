@@ -109,7 +109,6 @@ const AllCampaigns = () => {
       <div className="md:px-6">
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
       </div>
-      {/* <label>Search By ID</label> */}
       <div className="grid justify-center align-middle place-items-center pb-10">
         <form className="flex flex-row justify-between align-middle space-x-4 place-items-center pt-5">
           <select
