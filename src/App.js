@@ -29,7 +29,6 @@ const router = createBrowserRouter(
       <Route index element={<Index />} />
       <Route path="new_campaign" element={<CreateACampaign />} />
       <Route path="campaigns" element={<AllCampaigns />} />
-
       <Route path="mission" element={<Mission />} />
       <Route path="profile" element={<Profile />} />
       <Route path="terms" element={<Terms />} />

@@ -1,5 +1,5 @@
 import MMButton from "../components/MMButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
 import {
@@ -14,6 +14,7 @@ import Campaign from "../components/Campaign";
 
 const AllCampaigns = () => {
   const [campaign, setCampaign] = useState();
+
   const [txHash, setTxHash] = useState();
   const [signer, setSigner] = useState();
   const [account, setAccount] = useState();
@@ -28,12 +29,28 @@ const AllCampaigns = () => {
     setSigner(signerAccount);
     setAccount(await signerAccount.getAddress());
   }
+  const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [campaigns, setCampaigns] = useState([]);
+
+  // Get total campaigns
+  useEffect(() => {
+    async function getTotalCampaigns() {
+      const allCampaigns = await contract.totalCampaigns();
+      setNumOfCampaigns(allCampaigns);
+      const campaignIds = [];
+      for (let i = 0; i < allCampaigns.toNumber(); i++) {
+        campaignIds.push(i);
+      }
+      setCampaigns(campaignIds);
+    }
+    getTotalCampaigns();
+  }, []);
 
   // Get campaign by ID
   async function getCampaigns(e) {
     e.preventDefault();
-    const id = document.getElementById("id").value;
-    const campaign = await contract.campaigns(id);
+    const campaign = await contract.campaigns(selectedCampaign);
     setCampaign(campaign);
   }
 
@@ -89,19 +106,26 @@ const AllCampaigns = () => {
         <h1 className="md:text-3xl sm:text-2xl xs:text-xl pb-4">
           Find A Campaign
         </h1>
-        <label>Search By ID</label>
+        {/* <label>Search By ID</label> */}
         <form className="flex flex-row justify-between align-middle space-x-4 place-items-center pt-5">
-          <input
-            id="id"
-            type="text"
-            className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5   dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          />
-          <button
+          <select
+            value={selectedCampaign}
+            onChange={(e) => setSelectedCampaign(e.target.value)}
+          >
+            <option value="">Select Campaign ID</option>
+            {campaigns.map((campaignId) => (
+              <option key={campaignId} value={campaignId}>
+                {campaignId}
+              </option>
+            ))}
+          </select>
+          <button onClick={getCampaigns}>Get Campaign</button>
+          {/* <button
             className="border border-black px-4 h-10 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
             onClick={getCampaigns}
           >
             Search
-          </button>
+          </button> */}
         </form>
       </div>
       <div className="md:px-6">
@@ -113,19 +137,23 @@ const AllCampaigns = () => {
         </h2>
       ) : (
         <div className="xs:px-10 sm:px-14 md:px-24 pb-24">
-          <Campaign
-            title={campaign.title}
-            owner={`${campaign.owner.substring(0, 5)}...
-                  ${campaign.owner.substring(campaign.owner.length - 4)}`}
-            campaign={campaign}
-            startDate={new Date(
-              campaign.startAt.toNumber() * 1000
-            ).toLocaleString()}
-            endDate={new Date(
-              campaign.endAt.toNumber() * 1000
-            ).toLocaleString()}
-            description={campaign.description}
-          />
+          <div>
+            {campaign && (
+              <Campaign
+                title={campaign.title}
+                owner={`${campaign.owner.substring(0, 5)}...
+            ${campaign.owner.substring(campaign.owner.length - 4)}`}
+                campaign={campaign}
+                startDate={new Date(
+                  campaign.startAt.toNumber() * 1000
+                ).toLocaleString()}
+                endDate={new Date(
+                  campaign.endAt.toNumber() * 1000
+                ).toLocaleString()}
+                description={campaign.description}
+              />
+            )}
+          </div>
           {/* If account is campaign owner, remove pledge. If the campaign hasn't started, display cancel button. If campaign has started, display warning. If campaign has ended and goal was met, display Withdraw*/}
           <div className="grid justify-center space-y-2 pt-10">
             {account ? (

@@ -1,8 +1,8 @@
 import MMButton from "../components/MMButton";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
-import { launchCampaign, provider, contract } from "../utils/configs";
+import { launchCampaign, provider } from "../utils/configs";
 
 const CreateACampaign = () => {
   const [account, setAccount] = useState();
