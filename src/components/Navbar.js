@@ -42,13 +42,13 @@ const Navbar = () => {
                   </p>
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink to="profile">
                   <p className="block py-2 pl-3 pr-4 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  md:dark:hover:text-teal-600">
                     My Profile
                   </p>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>
