@@ -109,9 +109,12 @@ const AllCampaigns = () => {
         <form className="flex flex-row justify-between align-middle space-x-4 place-items-center pt-5">
           <select
             value={selectedCampaign}
-            onChange={(e) => setSelectedCampaign(e.target.value)}
+            onChange={(e) => {
+              setSelectedCampaign(e.target.value);
+            }}
+            className="rounded-md px-2 py-2 w-34 focus:ring-teal-600 hover:border-teal-200"
           >
-            <option value="">Select Campaign ID</option>
+            <option value="">Select ID</option>
             {campaigns
               .slice()
               .reverse()
@@ -121,22 +124,28 @@ const AllCampaigns = () => {
                 </option>
               ))}
           </select>
-          <button onClick={getCampaigns}>Get Campaign</button>
-          {/* <button
+          <button
             className="border border-black px-4 h-10 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md"
             onClick={getCampaigns}
           >
-            Search
-          </button> */}
+            Get Campaign
+          </button>
         </form>
       </div>
       <div className="md:px-6">
         <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
       </div>
       {!campaign ? (
-        <h2 className="text-center xs:text-xl sm:text-2xl text-teal-600 pt-10">
-          Enter an ID to find a campaign to pledge to
-        </h2>
+        <>
+          {" "}
+          <h2 className="text-center xs:text-xl sm:text-2xl text-teal-600 pt-10">
+            Ready to Pledge?
+          </h2>
+          <p className="text-center xs:text-md sm:text-lg pt-10">
+            Start helping out campaigns today! Simply find a campaign that's
+            active and connect your wallet!
+          </p>
+        </>
       ) : (
         <div className="xs:px-10 sm:px-14 md:px-24 pb-24">
           <div>
