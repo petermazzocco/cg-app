@@ -112,6 +112,7 @@ const AllCampaigns = () => {
       <div className="grid justify-center align-middle place-items-center pb-10">
         <form className="flex flex-row justify-between align-middle space-x-4 place-items-center pt-5">
           <select
+            id="id"
             value={selectedCampaign}
             onChange={(e) => {
               setSelectedCampaign(e.target.value);
