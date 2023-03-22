@@ -21,6 +21,7 @@ const AllCampaigns = () => {
   const [errMsg, setErrMsg] = useState();
   const [cancelHash, setCancelHash] = useState();
   const [withdrawHash, setWithdrawHash] = useState();
+  // eslint-disable-next-line
   const [numOfCampaigns, setNumOfCampaigns] = useState("");
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
