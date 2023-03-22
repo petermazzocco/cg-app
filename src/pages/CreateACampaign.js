@@ -1,17 +1,18 @@
 import MMButton from "../components/MMButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
 import { launchCampaign, provider } from "../utils/configs";
+import DonateToDev from "../components/DonateToDev";
 
 const CreateACampaign = () => {
   const [account, setAccount] = useState();
   const [signer, setSigner] = useState();
   const [txHash, setTxHash] = useState();
   const [errMsg, setErrMsg] = useState();
+  const [showModal, setShowModal] = useState(false);
 
   // Web3 connection
-
   async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
     const signerAccount = await provider.getSigner();
@@ -45,12 +46,27 @@ const CreateACampaign = () => {
         endAt
       );
       setTxHash(tx.hash);
+      setTimeout(() => setShowModal(true), 1000);
       // setIsLoading(true);
     } catch (err) {
       console.log(err);
       setErrMsg(`Uh oh, an error occured while creating the campaign.`);
     }
   }
+  //Handle modal
+  function handleModalClose() {
+    setShowModal(false);
+  }
+
+  useEffect(() => {
+    // add event listener to close modal when user clicks outside of it
+    window.addEventListener("click", handleModalClose);
+
+    return () => {
+      // remove event listener when component unmounts
+      window.removeEventListener("click", handleModalClose);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -180,23 +196,38 @@ const CreateACampaign = () => {
                   <p className="text-xs font-thin">Max 2000 characters.</p>
                 </div>
                 <div className="w-1/3">
-                  {txHash ? (
-                    <motion.button
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="pt-2 pb-2  border text-left text-white bg-yellow-600 hover:bg-yellow-500 border-black px-4 rounded-md "
-                    >
-                      <a
-                        href={`https://goerli.etherscan.io/tx/${txHash}`}
-                        className="xs:text-xs md:text-md lg:text-lg font-bold"
-                        target="_blank"
-                        rel="noreferrer"
+                  {showModal && txHash ? (
+                    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="bg-white p-24 rounded-md space-y-6"
                       >
-                        Creating Campaign
-                      </a>
-                    </motion.button>
+                        <div>
+                          <h2 className="font-black text-xl text-teal-600 text-center">
+                            Success!
+                          </h2>
+                          <p className="text-md font-bold text-black pt-2 grid justify-center">
+                            Creating your campaign...
+                            <a
+                              href={`https://goerli.etherscan.io/tx/${txHash}`}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-thin text-teal-900 hover:underline "
+                            >
+                              <span className="font-bold">TX:</span>{" "}
+                              {txHash.substring(0, 6)}...{" "}
+                              {txHash.substring(txHash.length - 6)}
+                            </a>
+                          </p>
+                        </div>
+                        <div className="md:px-6">
+                          <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                        </div>
+                        <div className="">
+                          <DonateToDev />
+                        </div>
+                      </div>
+                    </div>
                   ) : (
                     <div>
                       <button

@@ -11,6 +11,7 @@ import {
 } from "../utils/configs";
 
 import Campaign from "../components/Campaign";
+import DonateToDev from "../components/DonateToDev";
 
 const AllCampaigns = () => {
   const [campaign, setCampaign] = useState();
@@ -23,6 +24,7 @@ const AllCampaigns = () => {
   const [numOfCampaigns, setNumOfCampaigns] = useState("");
   const [selectedCampaign, setSelectedCampaign] = useState(null);
   const [campaigns, setCampaigns] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   // Connect wallet
   async function connectWallet() {
@@ -64,6 +66,7 @@ const AllCampaigns = () => {
     try {
       const tx = await pledgeTo(signer, id, amount);
       setTxHash(tx.hash);
+      setTimeout(() => setShowModal(true), 1000);
     } catch (err) {
       setErrMsg(`Uh oh, an error occured!`);
     }
@@ -98,6 +101,21 @@ const AllCampaigns = () => {
       }
     }
   }
+
+  //Handle modal
+  function handleModalClose() {
+    setShowModal(false);
+  }
+
+  useEffect(() => {
+    // add event listener to close modal when user clicks outside of it
+    window.addEventListener("click", handleModalClose);
+
+    return () => {
+      // remove event listener when component unmounts
+      window.removeEventListener("click", handleModalClose);
+    };
+  }, []);
 
   return (
     <div className="h-screen">
@@ -262,31 +280,42 @@ const AllCampaigns = () => {
                         >
                           Pledge
                         </button>
-                        {/* Transaction Hash for pledging */}
-                        {txHash ? (
-                          <p className="font-xs font-bold text-teal-600 pt-2 grid justify-center">
-                            Sending your pledge...{" "}
-                            <a
-                              href={`https://goerli.etherscan.io/tx/${txHash}`}
-                              target="_blank"
-                              rel="noreferrer"
-                              className="font-thin text-teal-900 hover:underline "
+                        {/* Transaction Hash Modal */}
+                        {showModal && txHash && (
+                          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                            <div
+                              onClick={(e) => e.stopPropagation()}
+                              className="bg-white p-24 rounded-md space-y-6"
                             >
-                              <span className="font-bold">TX:</span>{" "}
-                              {txHash.substring(0, 6)}...{" "}
-                              {txHash.substring(txHash.length - 6)}
-                            </a>
-                          </p>
-                        ) : (
-                          <>
-                            {/* Throw error message */}
-                            {errMsg ? (
-                              <p className="text-red-600">{errMsg}</p>
-                            ) : (
-                              <></>
-                            )}
-                          </>
+                              <div>
+                                <h2 className="font-black text-xl text-teal-600 text-center">
+                                  Success!
+                                </h2>
+                                <p className="text-md font-bold text-black pt-2 grid justify-center">
+                                  Your donation is on the way!
+                                  <a
+                                    href={`https://goerli.etherscan.io/tx/${txHash}`}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="font-thin text-teal-900 hover:underline "
+                                  >
+                                    <span className="font-bold">TX:</span>{" "}
+                                    {txHash.substring(0, 6)}...{" "}
+                                    {txHash.substring(txHash.length - 6)}
+                                  </a>
+                                </p>
+                              </div>
+                              <div className="md:px-6">
+                                <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                              </div>
+                              <div className="">
+                                <DonateToDev />
+                              </div>
+                            </div>
+                          </div>
                         )}
+                        {/* Throw error message */}
+                        {errMsg && <p className="text-red-600">{errMsg}</p>}
                       </>
                     ) : (
                       <p className="font-bold text-red-400">

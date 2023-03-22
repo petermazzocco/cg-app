@@ -13,7 +13,6 @@ import CreateACampaign from "./pages/CreateACampaign";
 import AllCampaigns from "./pages/AllCampaigns";
 import Mission from "./pages/Mission";
 import Profile from "./pages/Profile";
-import Terms from "./pages/Terms";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,7 +30,6 @@ const router = createBrowserRouter(
       <Route path="campaigns" element={<AllCampaigns />} />
       <Route path="mission" element={<Mission />} />
       <Route path="profile" element={<Profile />} />
-      <Route path="terms" element={<Terms />} />
     </Route>
   )
 );

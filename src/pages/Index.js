@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import logo from "../img/logo2.png";
-
+import DonateToDev from "../components/DonateToDev";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { contract } from "../utils/configs";
@@ -71,7 +71,6 @@ const Index = () => {
           </div>
         </div>
       </div>
-
       <div className="grid place-items-center pt-40 space-y-8 pl-10 pr-10">
         <h1 className="text-center text-2xl">What are we trying to solve?</h1>
         <div className="md:flex md:flex-row md:justify-evenly text-center md:w-full xs:grid xs:grid-cols-1 gap-24">
@@ -140,7 +139,7 @@ const Index = () => {
       </div>
       <div className="grid justify-center pt-5 pb-10 ">
         <div className="text-center grid grid-cols-1 space-y-4">
-          <h1>Ready To Commit?</h1>
+          <h1 className="font-bold">Ready To Commit?</h1>
           <NavLink to="campaigns">
             <button className="border border-black px-4 h-11 xs:text-xs md:text-md lg:text-lg bg-transparent hover:bg-teal-700 hover:text-white rounded-md">
               Campaigns
@@ -148,6 +147,7 @@ const Index = () => {
           </NavLink>
         </div>
       </div>
+      <DonateToDev />
     </div>
   );
 };
