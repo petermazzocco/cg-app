@@ -14,13 +14,15 @@ import Campaign from "../components/Campaign";
 
 const AllCampaigns = () => {
   const [campaign, setCampaign] = useState();
-
   const [txHash, setTxHash] = useState();
   const [signer, setSigner] = useState();
   const [account, setAccount] = useState();
   const [errMsg, setErrMsg] = useState();
   const [cancelHash, setCancelHash] = useState();
   const [withdrawHash, setWithdrawHash] = useState();
+  const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [campaigns, setCampaigns] = useState([]);
 
   // Connect wallet
   async function connectWallet() {
@@ -29,9 +31,6 @@ const AllCampaigns = () => {
     setSigner(signerAccount);
     setAccount(await signerAccount.getAddress());
   }
-  const [numOfCampaigns, setNumOfCampaigns] = useState("");
-  const [selectedCampaign, setSelectedCampaign] = useState(null);
-  const [campaigns, setCampaigns] = useState([]);
 
   // Get total campaigns
   useEffect(() => {
@@ -113,11 +112,14 @@ const AllCampaigns = () => {
             onChange={(e) => setSelectedCampaign(e.target.value)}
           >
             <option value="">Select Campaign ID</option>
-            {campaigns.map((campaignId) => (
-              <option key={campaignId} value={campaignId}>
-                {campaignId}
-              </option>
-            ))}
+            {campaigns
+              .slice()
+              .reverse()
+              .map((campaignId) => (
+                <option key={campaignId} value={campaignId}>
+                  {campaignId}
+                </option>
+              ))}
           </select>
           <button onClick={getCampaigns}>Get Campaign</button>
           {/* <button
