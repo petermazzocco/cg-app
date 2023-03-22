@@ -105,7 +105,12 @@ const AllCampaigns = () => {
         <h1 className="md:text-3xl sm:text-2xl xs:text-xl pb-4">
           Find A Campaign
         </h1>
-        {/* <label>Search By ID</label> */}
+      </div>
+      <div className="md:px-6">
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+      </div>
+      {/* <label>Search By ID</label> */}
+      <div className="grid justify-center align-middle place-items-center pb-10">
         <form className="flex flex-row justify-between align-middle space-x-4 place-items-center pt-5">
           <select
             value={selectedCampaign}
@@ -131,9 +136,6 @@ const AllCampaigns = () => {
             Get Campaign
           </button>
         </form>
-      </div>
-      <div className="md:px-6">
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
       </div>
       {!campaign ? (
         <>
