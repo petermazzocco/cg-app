@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ethers } from "ethers";
-import { buyCoffee, provider } from "../utils/donateToDevConfig";
+import { donate, provider } from "../utils/donateToDevConfig";
 import MMButton from "../components/MMButton";
 
 const DonateToDev = () => {
@@ -22,8 +22,9 @@ const DonateToDev = () => {
       document.getElementById("eth").value,
       "ether"
     );
+
     try {
-      const tx = await buyCoffee(signer, name, message, amount);
+      const tx = await donate(signer, name, message, amount);
       setTxHash(tx.hash);
     } catch (err) {
       console.log(err);
@@ -42,6 +43,7 @@ const DonateToDev = () => {
               <input
                 placeholder={account}
                 disabled
+                type="text"
                 className="bg-gray-50 cursor-not-allowed border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
                 id="name"
               />
@@ -52,6 +54,7 @@ const DonateToDev = () => {
                 <span className="text-xs font-thin">{""}*Not required</span>
               </label>
               <input
+                type="text"
                 placeholder="Thanks!"
                 className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
                 id="message"
@@ -60,6 +63,7 @@ const DonateToDev = () => {
             <div className=" grid justify-center">
               <label>Amount</label>
               <input
+                type="text"
                 placeholder="in ETH"
                 className="bg-gray-50 border border-gray-600 text-gray-900 text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 block w-full p-2.5  dark:placeholder-gray-400  dark:focus:ring-teal-500 dark:focus:border-teal-500"
                 id="eth"
@@ -67,13 +71,29 @@ const DonateToDev = () => {
             </div>
             <div className=" grid justify-center">
               <button
+                type="button"
                 className="border w-full border-black rounded-md px-4 py-2 hover:bg-teal-700 hover:text-white"
-                onSubmit={newDonation}
+                onClick={newDonation}
               >
                 Donate
               </button>
+
               {txHash ? (
-                { txHash }
+                <div className="grid justify-center text-center">
+                  <p>Thank You :^)</p>
+                  <p>
+                    TX Hash:{""}
+                    <a
+                      href={`https://goerli.etherscan.io/tx/${txHash}`}
+                      className="text-thin underline"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {txHash.substring(0, 3)}...
+                      {txHash.substring(txHash.length - 3)}
+                    </a>
+                  </p>
+                </div>
               ) : (
                 <>
                   <p className="text-xs text-center">Connected</p>
