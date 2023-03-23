@@ -1,5 +1,6 @@
 import MMButton from "../components/MMButton";
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
 
 import {
@@ -27,6 +28,8 @@ const AllCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  let { id } = useParams();
+  let navigate = useNavigate();
   // Connect wallet
   async function connectWallet() {
     await provider.send("eth_requestAccounts", []);
@@ -54,7 +57,14 @@ const AllCampaigns = () => {
     e.preventDefault();
     const campaign = await contract.campaigns(selectedCampaign);
     setCampaign(campaign);
+    //Navigate to campaign ID
+    navigate(`/campaigns/${selectedCampaign}`);
   }
+
+  // Set the selected campaign ID to the value from URL params
+  useEffect(() => {
+    setSelectedCampaign(id);
+  }, [id]);
 
   // Pledge to campaign
   async function pledgeToCampaign() {

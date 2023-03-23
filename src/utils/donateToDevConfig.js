@@ -9,6 +9,11 @@ export async function donate(signer, name, message, amount) {
   return factory.buyCoffee(name, message, { value: amount });
 }
 
+export async function withdraw(signer) {
+  const factory = new ethers.Contract(contractAddress, DonateToDev.abi, signer);
+  return factory.withdrawTips();
+}
+
 //Providers and Contract promises
 export const provider = new ethers.providers.Web3Provider(window.ethereum);
 export const contract = new ethers.Contract(
