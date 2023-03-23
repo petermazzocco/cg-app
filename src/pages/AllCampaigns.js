@@ -156,7 +156,7 @@ const AllCampaigns = () => {
               .reverse()
               .map((campaignId) => (
                 <option key={campaignId} value={campaignId}>
-                  {campaignId + 1}
+                  {campaignId}
                 </option>
               ))}
           </select>

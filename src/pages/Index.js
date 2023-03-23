@@ -11,7 +11,7 @@ const Index = () => {
   useEffect(() => {
     async function getTotalCampaigns() {
       const campaigns = await contract.totalCampaigns();
-      setNumOfCampaigns(campaigns);
+      setNumOfCampaigns(campaigns - 1);
     }
     getTotalCampaigns();
   }, []);
