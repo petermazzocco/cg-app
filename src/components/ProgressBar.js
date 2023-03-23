@@ -1,7 +1,7 @@
 import React from "react";
 import { ethers } from "ethers";
 
-const ProgressBar = ({ campaign }) => {
+const ProgressBar = ({ campaign, cancelled }) => {
   // calculate the percentage of the goal that has been pledged
   const percentagePledged = (campaign.pledged / campaign.goal) * 100;
 

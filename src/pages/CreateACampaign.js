@@ -2,8 +2,9 @@ import MMButton from "../components/MMButton";
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ethers } from "ethers";
-import { launchCampaign, provider } from "../utils/configs";
+import { launchCampaign, provider, contract } from "../utils/configs";
 import DonateToDev from "../components/DonateToDev";
+import ShareToTwitter from "../components/ShareToTwitter";
 
 const CreateACampaign = () => {
   const [account, setAccount] = useState();
@@ -66,6 +67,16 @@ const CreateACampaign = () => {
       // remove event listener when component unmounts
       window.removeEventListener("click", handleModalClose);
     };
+  }, []);
+
+  const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  // Get total campaigns
+  useEffect(() => {
+    async function getTotalCampaigns() {
+      const campaigns = await contract.totalCampaigns();
+      setNumOfCampaigns(campaigns);
+    }
+    getTotalCampaigns();
   }, []);
 
   return (
@@ -197,10 +208,10 @@ const CreateACampaign = () => {
                 </div>
                 <div className="w-1/3">
                   {showModal && txHash ? (
-                    <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                    <div className="fixed top-0 left-0 backdrop-blur-sm w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
                       <div
                         onClick={(e) => e.stopPropagation()}
-                        className="bg-white p-24 rounded-md space-y-6"
+                        className="bg-white p-24 rounded-xl space-y-6"
                       >
                         <div>
                           <h2 className="font-black text-xl text-teal-600 text-center">
@@ -219,6 +230,14 @@ const CreateACampaign = () => {
                               {txHash.substring(txHash.length - 6)}
                             </a>
                           </p>
+                          <div className="pt-5">
+                            <ShareToTwitter
+                              id={numOfCampaigns}
+                              title={
+                                "Just created a campaign on CrowdGaming! Please donate to it. #CrowdGaming"
+                              }
+                            />
+                          </div>
                         </div>
                         <div className="md:px-6">
                           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />

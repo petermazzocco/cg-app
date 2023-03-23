@@ -2,6 +2,7 @@ import MMButton from "../components/MMButton";
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ethers } from "ethers";
+import ShareToTwitter from "../components/ShareToTwitter";
 
 import {
   pledgeTo,
@@ -168,17 +169,30 @@ const AllCampaigns = () => {
           </button>
         </form>
       </div>
+
       {!campaign ? (
-        <>
+        <div className="grid justify-center align-middle place-items-center space-y-8">
           {" "}
-          <h2 className="text-center xs:text-xl sm:text-2xl text-teal-600 pt-10">
+          <h2 className="text-center xs:text-xl sm:text-2xl text-teal-600">
             Ready to Pledge?
           </h2>
-          <p className="text-center xs:text-md sm:text-lg pt-10">
-            Start helping out campaigns today! Simply find a campaign that's
-            active and connect your wallet!
+          <p className="text-center xs:text-md sm:text-lg">
+            Start helping out campaigns today! Click "
+            <span className="text-teal-600">Get Campaign</span>
+            ".
           </p>
-        </>
+          <p className="w-1/2">
+            <span className="text-red-400 font-bold">Before You Do:</span>{" "}
+            Transactions on the blockchain are irreversible, which means that
+            any mistake made during the transaction cannot be undone. This
+            creates a risk for users who may accidentally send, refund or
+            withdraw funds to the wrong address, enter incorrect transaction
+            details, or other errors. As such, it's important to carefully
+            double-check all transaction details before sending. CrowdGaming
+            cannot be held responsible for any loss of funds resulting from user
+            or blockchain error, as it's outside our control.
+          </p>
+        </div>
       ) : (
         <div className="xs:px-10 sm:px-14 md:px-24 pb-24">
           <div>
@@ -195,6 +209,7 @@ const AllCampaigns = () => {
                   campaign.endAt.toNumber() * 1000
                 ).toLocaleString()}
                 description={campaign.description}
+                id={campaign.id}
               />
             )}
           </div>
@@ -226,10 +241,10 @@ const AllCampaigns = () => {
                           Withdraw
                         </button>
                         {showModal && withdrawHash ? (
-                          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                          <div className="fixed top-0 left-0 backdrop-blur-sm w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
                             <div
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-white p-24 rounded-md space-y-6"
+                              className="bg-white p-24 rounded-xl space-y-6"
                             >
                               <div>
                                 <h2 className="font-black text-xl text-teal-600 text-center">
@@ -278,10 +293,10 @@ const AllCampaigns = () => {
                             </button>
                             {/* Cancellation Hash */}
                             {showModal && cancelHash ? (
-                              <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                              <div className="fixed top-0 left-0 backdrop-blur-sm w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
                                 <div
                                   onClick={(e) => e.stopPropagation()}
-                                  className="bg-white p-24 rounded-md space-y-6"
+                                  className="bg-white p-24 rounded-xl space-y-6 "
                                 >
                                   <div>
                                     <h2 className="font-black text-xl text-teal-600 text-center">
@@ -343,10 +358,10 @@ const AllCampaigns = () => {
                         </button>
                         {/* Transaction Hash Modal */}
                         {showModal && txHash && (
-                          <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                          <div className="fixed top-0 left-0 w-full backdrop-blur-sm h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
                             <div
                               onClick={(e) => e.stopPropagation()}
-                              className="bg-white p-24 rounded-md space-y-6"
+                              className="bg-white p-24 rounded-xl space-y-6"
                             >
                               <div>
                                 <h2 className="font-black text-xl text-teal-600 text-center">
@@ -365,6 +380,14 @@ const AllCampaigns = () => {
                                     {txHash.substring(txHash.length - 6)}
                                   </a>
                                 </p>
+                                <div className="pt-4">
+                                  <ShareToTwitter
+                                    id={selectedCampaign}
+                                    title={
+                                      "Just donated to this campaign! Check it out: #CrowdGaming"
+                                    }
+                                  />
+                                </div>
                               </div>
                               <div className="md:px-6">
                                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
@@ -392,6 +415,12 @@ const AllCampaigns = () => {
                   Connect Wallet To Interact
                 </p>
                 <MMButton connectWallet={connectWallet} owner={account} />
+                <ShareToTwitter
+                  id={selectedCampaign}
+                  title={
+                    "Check out this campaign from CrowdGaming! #CrowdGaming"
+                  }
+                />
               </>
             )}
           </div>
