@@ -3,7 +3,7 @@ import logo from "../img/logo2.png";
 import DonateToDev from "../components/DonateToDev";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { contract } from "../utils/configs";
+import { contract, provider } from "../utils/configs";
 
 const Index = () => {
   const [numOfCampaigns, setNumOfCampaigns] = useState("");
@@ -15,6 +15,7 @@ const Index = () => {
     }
     getTotalCampaigns();
   }, []);
+
   return (
     <div className="min-h-screen">
       <div className=" px-24 pt-48 text-black">
