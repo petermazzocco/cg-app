@@ -3,10 +3,11 @@ import logo from "../img/logo2.png";
 import DonateToDev from "../components/DonateToDev";
 import { NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { contract } from "../utils/configs";
+import { contract, provider } from "../utils/configs";
 
 const Index = () => {
   const [numOfCampaigns, setNumOfCampaigns] = useState("");
+  const [networkId, setNetworkId] = useState();
   // Get total campaigns
   useEffect(() => {
     async function getTotalCampaigns() {
@@ -14,6 +15,18 @@ const Index = () => {
       setNumOfCampaigns(campaigns - 1);
     }
     getTotalCampaigns();
+  }, []);
+  //GOERLI ONLY
+  useEffect(() => {
+    async function getNetworkID() {
+      const network = await provider.getNetwork();
+      const chainId = network.chainId;
+      if (chainId === 5) {
+        setNetworkId(chainId);
+        console.log(chainId);
+      }
+    }
+    getNetworkID();
   }, []);
 
   return (
@@ -61,14 +74,20 @@ const Index = () => {
           </div>
           <div className="md:col-span-1 xs:row-span-1 justify-center grid place-items-center xs:pt-10 md:pt-0">
             <img src={logo} className="w-1/3" alt="logo" />
-            <NavLink to="campaigns">
+            {networkId ? (
+              <NavLink to="campaigns">
+                <p className="font-bold sm:text-xl md:text-2xl pt-2">
+                  Total Campaigns:{" "}
+                  <span className="text-teal-600">
+                    {numOfCampaigns.toString()}
+                  </span>
+                </p>
+              </NavLink>
+            ) : (
               <p className="font-bold sm:text-xl md:text-2xl pt-2">
-                Total Campaigns:{" "}
-                <span className="text-teal-600">
-                  {numOfCampaigns.toString()}
-                </span>
+                Switch to Goerli
               </p>
-            </NavLink>
+            )}
           </div>
         </div>
       </div>
