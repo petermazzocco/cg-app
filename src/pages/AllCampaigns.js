@@ -10,6 +10,7 @@ import {
   contract,
   cancelCampaign,
   withdrawFrom,
+  refund,
 } from "../utils/configs";
 
 import Campaign from "../components/Campaign";
@@ -29,7 +30,7 @@ const AllCampaigns = () => {
   const [campaigns, setCampaigns] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [networkId, setNetworkId] = useState();
-
+  const [refundHash, setRefundHash] = useState();
   let { id } = useParams();
   let navigate = useNavigate();
   // Connect wallet
@@ -123,6 +124,24 @@ const AllCampaigns = () => {
       try {
         const withdraw = await withdrawFrom(signer, id);
         setWithdrawHash(withdraw.hash);
+        setTimeout(() => setShowModal(true), 1000);
+      } catch (err) {
+        alert(err);
+      }
+    }
+  }
+
+  // Refund from campaign
+  async function refundFunds() {
+    const id = document.getElementById("id").value;
+    const amount = ethers.utils.parseEther(
+      document.getElementById("eth").value,
+      "ether"
+    );
+    if (account !== campaign.owner) {
+      try {
+        const getRefund = await refund(signer, id, amount);
+        setRefundHash(getRefund.hash);
         setTimeout(() => setShowModal(true), 1000);
       } catch (err) {
         alert(err);
@@ -421,9 +440,55 @@ const AllCampaigns = () => {
                             {errMsg && <p className="text-red-600">{errMsg}</p>}
                           </>
                         ) : (
-                          <p className="font-bold text-red-400">
-                            Campaign Has Ended
-                          </p>
+                          <div className="space-y-2">
+                            <p className="font-bold text-red-400">
+                              Campaign Has Ended
+                            </p>
+                            <p>Check for Refund:</p>
+                            <form className="space-y-4 w-full">
+                              <input
+                                id="eth"
+                                className="p-2"
+                                placeholder="Enter value in ETH"
+                              />
+                              <button
+                                className="w-1/2 rounded-md border border-black p-2"
+                                onClick={refundFunds}
+                                type="button"
+                              >
+                                Refund
+                              </button>
+                            </form>
+                            {showModal && refundHash && (
+                              <div className="fixed top-0 left-0 w-full backdrop-blur-sm h-full flex justify-center items-center bg-black bg-opacity-50 z-50">
+                                <div
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="bg-white p-24 rounded-xl space-y-6"
+                                >
+                                  <div>
+                                    <h2 className="font-black text-xl text-teal-600 text-center">
+                                      Success!
+                                    </h2>
+
+                                    <a
+                                      href={`https://goerli.etherscan.io/tx/${refundHash}`}
+                                      target="_blank"
+                                      rel="noreferrer"
+                                      className="font-thin text-teal-900 hover:underline "
+                                    >
+                                      Your refund has been initiated!
+                                    </a>
+                                  </div>
+                                  <div className="md:px-6">
+                                    <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8 " />
+                                  </div>
+                                  <div className="">
+                                    <DonateToDev />
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
                         )}
                       </div>
                     )}

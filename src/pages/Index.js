@@ -16,6 +16,7 @@ const Index = () => {
     }
     getTotalCampaigns();
   }, []);
+
   //GOERLI ONLY
   useEffect(() => {
     async function getNetworkID() {
@@ -167,7 +168,6 @@ const Index = () => {
           </NavLink>
         </div>
       </div>
-      <DonateToDev />
     </div>
   );
 };
